@@ -10,14 +10,26 @@ import net.anotheria.access.impl.AccessContext;
  * @author lrosenberg
  *
  */
-public abstract class SubjectAttributeIsEqualToObjectAttributeConstraint extends AbstractCustomConstraint{
+public class SubjectAttributeIsEqualToObjectAttributeConstraint extends AbstractCustomConstraint{
 
+	private String attributeName;
+	
+	public SubjectAttributeIsEqualToObjectAttributeConstraint(){
+	}
+
+	public SubjectAttributeIsEqualToObjectAttributeConstraint(String anAttributeName){
+		attributeName = anAttributeName;
+	}
+	
 	@Override public boolean isMet() {
 		
+		String aName = getAttributeName();
+		if (aName==null)
+			throw new IllegalArgumentException("attributename neither set, not overwritten");
 		SecurityObject object = AccessContext.getContext().getObject();
 		SecurityObject subject = AccessContext.getContext().getSubject();
-		SOAttribute objectAttribute = object.getAttribute(getAttributeName());
-		SOAttribute subjectAttribute = subject.getAttribute(getAttributeName());
+		SOAttribute objectAttribute = object.getAttribute(aName);
+		SOAttribute subjectAttribute = subject.getAttribute(aName);
 		
 		return objectAttribute == null ? subjectAttribute==null : 
 			objectAttribute.equals(subjectAttribute);
@@ -27,6 +39,8 @@ public abstract class SubjectAttributeIsEqualToObjectAttributeConstraint extends
 	 * Returns the name of the attribute to compare.
 	 * @return
 	 */
-	protected abstract String getAttributeName();
+	protected String getAttributeName(){
+		return attributeName;
+	}
 	
 }

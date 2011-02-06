@@ -22,8 +22,13 @@ public abstract class Constraintable implements Serializable{
 		constraints = new ArrayList<Constraint>();
 	}
 	
-	public void addConstraint(Constraint c){
+	public void addConstraint(Constraint c, Constraint... additional){
 		constraints.add(c);
+		if (additional!=null){
+			for (Constraint cc : additional){
+				constraints.add(cc);
+			}
+		}
 	}
 	
 	public void addConstraints(List<Constraint> someConstraints){

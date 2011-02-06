@@ -1,6 +1,11 @@
 package net.anotheria.access;
 
+import net.anotheria.access.custom.FemaleObjectConstraint;
+import net.anotheria.access.custom.FemaleSubjectConstraint;
+import net.anotheria.access.custom.MaleSubjectConstraint;
+import net.anotheria.access.custom.SubjectAttributeIsEqualToObjectAttributeConstraint;
 import net.anotheria.access.impl.AccessServiceFactory;
+import net.anotheria.access.impl.Constraint;
 import net.anotheria.access.impl.PermissionCollection;
 import net.anotheria.access.impl.PermissionImpl;
 import net.anotheria.access.impl.StaticRole;
@@ -52,7 +57,16 @@ public class TestConstraintDrivenRoles {
 		StaticRole premiumRole = new StaticRole("premium");
 		service.addRole(premiumRole);
 		
+		
+		//this role only allows females to write to male if they are in same locale
+		PermissionImpl femaleToMaleWrite = new PermissionImpl();
+		femaleToMaleWrite.setAction("write");
+		femaleToMaleWrite.setAllow(true);
+		femaleToMaleWrite.setPriority(1);//best practice to set priority for basic roles to 1
+		femaleToMaleWrite.addConstraint(new FemaleObjectConstraint(), new MaleSubjectConstraint(), new SubjectAttributeIsEqualToObjectAttributeConstraint("locale"));
+		
 		PermissionCollection basicCollection = new PermissionCollection("basic");
+		basicCollection.add(femaleToMaleWrite);
 		service.addPermissionCollection(basicCollection);
 		StaticRole basicRole = new StaticRole("basic");
 		service.addRole(basicRole);
