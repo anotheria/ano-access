@@ -2,6 +2,7 @@ package net.anotheria.access;
 
 import net.anotheria.access.custom.FemaleObjectConstraint;
 import net.anotheria.access.custom.FemaleSubjectConstraint;
+import net.anotheria.access.custom.MaleObjectConstraint;
 import net.anotheria.access.custom.MaleSubjectConstraint;
 import net.anotheria.access.custom.SubjectAttributeIsEqualToObjectAttributeConstraint;
 import net.anotheria.access.impl.AccessServiceFactory;
@@ -58,6 +59,12 @@ public class TestConstraintDrivenRoles {
 		service.addRole(premiumRole);
 		
 		
+		PermissionImpl basicRead = new PermissionImpl();
+		basicRead.setAction("read");
+		basicRead.setAllow(true);
+		basicRead.setName("basic.read");
+		basicRead.setPriority(1);//best practice to set priority for basic permissions to 1
+
 		//this role only allows females to write to male if they are in same locale
 		PermissionImpl femaleToMaleWrite = new PermissionImpl();
 		femaleToMaleWrite.setAction("write");
@@ -65,8 +72,15 @@ public class TestConstraintDrivenRoles {
 		femaleToMaleWrite.setPriority(1);//best practice to set priority for basic roles to 1
 		femaleToMaleWrite.addConstraint(new FemaleObjectConstraint(), new MaleSubjectConstraint(), new SubjectAttributeIsEqualToObjectAttributeConstraint("locale"));
 		
+		//this role only allows females to write to male if they are in same locale
+		PermissionImpl maleFromMailRead = new PermissionImpl();
+		maleFromMailRead.setAction("read");
+		maleFromMailRead.setAllow(false);
+		maleFromMailRead.setPriority(3);//best practice to set priority for deny basic roles to 3
+		maleFromMailRead.addConstraint(new MaleObjectConstraint(), new MaleSubjectConstraint());
+
 		PermissionCollection basicCollection = new PermissionCollection("basic");
-		basicCollection.add(femaleToMaleWrite);
+		basicCollection.add(femaleToMaleWrite, maleFromMailRead, basicRead);
 		service.addPermissionCollection(basicCollection);
 		StaticRole basicRole = new StaticRole("basic");
 		service.addRole(basicRole);
@@ -162,6 +176,19 @@ public class TestConstraintDrivenRoles {
 		assertFalse(allowed("write", bm_at, bm_de));
 		assertFalse(allowed("write", bm_at, bf_at));
 		assertFalse(allowed("write", bm_at, bf_de));
+		
+	}
+
+	//basic male isn't allowed to read from premium male
+	@Test public void testBasicMaleRead() throws AccessServiceException{
+		assertFalse(allowed("read", bm_at, pm_at));
+		assertFalse(allowed("read", bm_at, pm_de));
+		assertTrue(allowed("read", bm_at, pf_at));
+		assertTrue(allowed("read", bm_at, pf_de));
+		assertFalse(allowed("read", bm_at, bm_at));
+		assertFalse(allowed("read", bm_at, bm_de));
+		assertTrue(allowed("read", bm_at, bf_at));
+		assertTrue(allowed("read", bm_at, bf_de));
 		
 	}
 
