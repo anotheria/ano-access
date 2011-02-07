@@ -9,7 +9,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>net.anotheria</groupId>
   <artifactId>ano-security</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
+  <version>1.0.0</version>
   <name>anotheria.net access control system</name>
 
   <dependencies>
@@ -41,8 +41,8 @@
   </dependencies>
 
 	<scm>
-		<url>svn:http://svn.anotheria.net/opensource/ano-access/trunk</url>
-		<connection>scm:svn:http://svn.anotheria.net/opensource/ano-access/trunk</connection>
-		<developerConnection>scm:svn:http://svn.anotheria.net/opensource/ano-access/trunk</developerConnection>
+		<url>svn:http://svn.anotheria.net/opensource/ano-access/tags/ano-security-1.0.0</url>
+		<connection>scm:svn:http://svn.anotheria.net/opensource/ano-access/tags/ano-security-1.0.0</connection>
+		<developerConnection>scm:svn:http://svn.anotheria.net/opensource/ano-access/tags/ano-security-1.0.0</developerConnection>
 	</scm>
 </project>
