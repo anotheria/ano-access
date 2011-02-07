@@ -1,4 +1,4 @@
-package net.anotheria.access.storage.dlp;
+package net.anotheria.access.storage;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -6,55 +6,59 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.List;
 
-import net.anotheria.access.storage.IFSSaveable;
+import net.anotheria.access.impl.SecurityBox;
+import net.anotheria.anoprise.dualcrud.CrudService;
+import net.anotheria.anoprise.dualcrud.CrudServiceException;
+import net.anotheria.anoprise.dualcrud.ItemNotFoundException;
+import net.anotheria.anoprise.dualcrud.Query;
 
 import org.apache.log4j.Logger;
 
 
 
-public class DualLinkPersistenceWorkerImpl<T extends IFSSaveable> implements IDualLinkPersistenceWorker<T>{
+public class SecurityBoxCrudService implements CrudService<SecurityBox>{
 
-	private IPersistenceNotFoundExceptionFactory<? extends PersistedObjectNotFoundException> exceptionFactory;
-	private DualLinkPersistenceWorkerConfig config;
-	private static Logger log = Logger.getLogger(DualLinkPersistenceWorkerImpl.class);
+	private SecurityBoxStorageConfig config;
+	private static Logger log = Logger.getLogger(SecurityBoxCrudService.class);
 	
-	protected DualLinkPersistenceWorkerImpl(DualLinkPersistenceWorkerConfig aConfig, IPersistenceNotFoundExceptionFactory<? extends PersistedObjectNotFoundException> anExceptionFactory){
+	protected SecurityBoxCrudService(SecurityBoxStorageConfig aConfig){
 		config = aConfig;
-		exceptionFactory = anExceptionFactory;
 	}
 	
 	@Override
-	public void delete(String owner) throws PersistenceException{
+	public void delete(SecurityBox box) throws CrudServiceException{
+		String owner = box.getOwnerId();
 		File f = getFile(owner);
 		if (log.isDebugEnabled())
 			log.info("Deleting file "+f.getAbsolutePath()+" for user "+owner);
 		if (!f.exists())
 			return;
 		if (!f.delete()){
-			throw new PersistenceException("Deletion of file "+f.getAbsolutePath()+" failed.");			
+			throw new CrudServiceException("Deletion of file "+f.getAbsolutePath()+" failed.");			
 		}
 	}
 
 	@Override
-	public T load(String owner)  throws PersistenceException{
+	public SecurityBox read(String owner)  throws CrudServiceException{
 		File targetFile = getFile(owner);
 		ObjectInputStream oIn = null; 
 		if (!targetFile.exists())
-			throw exceptionFactory.createNotFoundException(owner);
+			throw new ItemNotFoundException(owner);
 		try{
 			synchronized(this){
 				oIn = new ObjectInputStream(new FileInputStream(targetFile));
-				@SuppressWarnings("unchecked") T ret = (T)oIn.readObject();
+				@SuppressWarnings("unchecked") SecurityBox ret = (SecurityBox)oIn.readObject();
 				oIn.close();
 				return ret;
 			}
 		}catch(IOException e){
 			log.warn("loadFile, targetFile=" + targetFile.getAbsolutePath(), e);
-			throw new PersistenceException(e);
+			throw new CrudServiceException("io problems", e);
 		}catch(ClassNotFoundException e){
 			log.warn("loadFile, targetFile=" + targetFile.getAbsolutePath(), e);
-			throw new PersistenceException("Load failed, because class not found: "+e.getMessage());
+			throw new CrudServiceException("Load failed, because class not found: "+e.getMessage());
 		}finally{
 			try{
 				if (oIn!=null)
@@ -65,7 +69,7 @@ public class DualLinkPersistenceWorkerImpl<T extends IFSSaveable> implements IDu
 	}
 
 	@Override
-	public void save(T saveable) throws PersistenceException{
+	public SecurityBox save(SecurityBox saveable) throws CrudServiceException{
 		File targetFile = getFile(saveable.getUserId());
 		if (log.isDebugEnabled())
 			log.debug("saving object "+saveable);
@@ -82,8 +86,9 @@ public class DualLinkPersistenceWorkerImpl<T extends IFSSaveable> implements IDu
 				if (oOut!=null)
 					oOut.close();
 			}catch(Exception ignored){}
-			throw new PersistenceException(e);
+			throw new CrudServiceException("io problems", e);
 		}
+		return saveable;
 	}
 
 
@@ -96,6 +101,26 @@ public class DualLinkPersistenceWorkerImpl<T extends IFSSaveable> implements IDu
 		File dir = new File(config.calculateDirPath(userId));
 		dir.mkdirs();
 		return new File(config.calculateFilePath(userId));
+	}
+
+	@Override
+	public SecurityBox create(SecurityBox t) throws CrudServiceException {
+		return save(t);
+	}
+
+	@Override
+	public SecurityBox update(SecurityBox t) throws CrudServiceException {
+		return save(t);
+	}
+
+	@Override
+	public boolean exists(SecurityBox t) throws CrudServiceException {
+		throw new UnsupportedOperationException("yet unimplemented");
+	}
+
+	@Override
+	public List<SecurityBox> query(Query q) throws CrudServiceException {
+		throw new UnsupportedOperationException("yet unimplemented");
 	}
 	
 	

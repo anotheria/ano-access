@@ -13,17 +13,17 @@ import net.anotheria.access.PermissionReply;
 import net.anotheria.access.Role;
 import net.anotheria.access.RoleInfo;
 import net.anotheria.access.SecurityObject;
-import net.anotheria.access.storage.BouncerStorage;
-import net.anotheria.access.storage.BouncerStorageBoxNotFoundException;
-import net.anotheria.access.storage.BouncerStorageDLFactory;
-import net.anotheria.access.storage.BouncerStorageException;
+import net.anotheria.access.storage.SecurityBoxStorage;
+import net.anotheria.access.storage.SecurityBoxStorageBoxNotFoundException;
+import net.anotheria.access.storage.SecurityBoxStorageFactory;
+import net.anotheria.access.storage.SecurityBoxStorageException;
 import net.anotheria.anoprise.cache.Cache;
 import net.anotheria.anoprise.cache.Caches;
 
 import org.apache.log4j.Logger;
 
 /**
- * The implementation of the bouncer service.
+ * The implementation of the access service.
  * @author another
  *
  */
@@ -31,7 +31,7 @@ public class AccessServiceImpl implements AccessService{
 	/**
 	 * Internal box storage.
 	 */
-	private BouncerStorage storage;
+	private SecurityBoxStorage storage;
 	/**
 	 * Log.
 	 */
@@ -45,7 +45,7 @@ public class AccessServiceImpl implements AccessService{
 	
 	
 	AccessServiceImpl(){
-		storage = BouncerStorageDLFactory.createStorage();
+		storage = SecurityBoxStorageFactory.createStorage();
 		try{
 			cache = Caches.createConfigurableSoftReferenceCache("ano-access.cache");
 		}catch(IllegalArgumentException e){
@@ -185,7 +185,7 @@ public class AccessServiceImpl implements AccessService{
 			if (fromStorage!=null)
 				cache.put(object.getId(), fromStorage);
 			return fromStorage;
-		}catch (BouncerStorageBoxNotFoundException notFound){
+		}catch (SecurityBoxStorageBoxNotFoundException notFound){
 			SecurityBox newBox = new SecurityBox(object.getId());
 			cache.put(object.getId(), newBox);
 			return newBox;
@@ -203,7 +203,7 @@ public class AccessServiceImpl implements AccessService{
 		try {
 			cache.put(box.getOwnerId(), box);
 			storage.saveSecurityBox(box);
-		}catch (BouncerStorageException e) {
+		}catch (SecurityBoxStorageException e) {
 			log.error("saveBox", e);
 			throw new AccessServiceException("Can't save security box: "+e.getMessage() );
 		}

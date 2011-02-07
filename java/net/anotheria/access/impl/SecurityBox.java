@@ -8,14 +8,14 @@ import java.util.List;
 import java.util.Map;
 
 import net.anotheria.access.Role;
-import net.anotheria.access.storage.IFSSaveable;
+import net.anotheria.anoprise.dualcrud.CrudSaveable;
 
 /**
  * A security box holds information about roles granted to a specific security object owner, i.e. user.
  * @author another
  *
  */
-public class SecurityBox implements Serializable, IFSSaveable{
+public class SecurityBox implements Serializable, CrudSaveable{
 	
 	private static final long serialVersionUID = 6151326668037727657L; 
 

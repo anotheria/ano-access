@@ -1,17 +1,17 @@
-package net.anotheria.access.storage.dlp;
+package net.anotheria.access.storage;
 
 import java.io.File;
 
 import org.apache.log4j.Logger;
 
-public class DualLinkPersistenceWorkerConfig {
+public class SecurityBoxStorageConfig {
 	
-	private static Logger log = Logger.getLogger(DualLinkPersistenceWorkerConfig.class);
+	private static Logger log = Logger.getLogger(SecurityBoxStorageConfig.class);
 	
 	private String extension;
 	private String defPath;
 	
-	public DualLinkPersistenceWorkerConfig(String anExtension, String aDefPath){
+	public SecurityBoxStorageConfig(String anExtension, String aDefPath){
 		extension = anExtension;
 		defPath = aDefPath;
 	}
@@ -50,8 +50,8 @@ public class DualLinkPersistenceWorkerConfig {
 	}
 	
 	public static void main(String a[]){
-		System.out.println("OLD "+new DualLinkPersistenceWorkerConfig(".vip", "/work/data/vip/").calculateFilePath("2571458"));
-		System.out.println("NEW "+new DualLinkPersistenceWorkerConfig(".vip", "/work/vip/data/").calculateFilePath("2571458"));
+		System.out.println("OLD "+new SecurityBoxStorageConfig(".vip", "/work/data/vip/").calculateFilePath("2571458"));
+		System.out.println("NEW "+new SecurityBoxStorageConfig(".vip", "/work/vip/data/").calculateFilePath("2571458"));
 	}
 
 	public String[] getFragmentation(String userId, int fragmentationDepth, int fragmentLength) {

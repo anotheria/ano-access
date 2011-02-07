@@ -1,1 +1,0 @@
-this is an adopted copy of the de.friendscout.datingr4.shared.persistence.dlp package. 
