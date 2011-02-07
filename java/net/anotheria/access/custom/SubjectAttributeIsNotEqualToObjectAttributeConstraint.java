@@ -5,7 +5,20 @@ package net.anotheria.access.custom;
  * @author lrosenberg
  *
  */
-public abstract class SubjectAttributeIsNotEqualToObjectAttributeConstraint extends SubjectAttributeIsEqualToObjectAttributeConstraint{
+public class SubjectAttributeIsNotEqualToObjectAttributeConstraint extends SubjectAttributeIsEqualToObjectAttributeConstraint{
+
+	/**
+	 * SerialVersionUID
+	 */
+	private static final long serialVersionUID = -8921448570038249196L;
+
+	public SubjectAttributeIsNotEqualToObjectAttributeConstraint(){
+		super();
+	}
+	
+	public SubjectAttributeIsNotEqualToObjectAttributeConstraint(String attributeName){
+		super(attributeName);
+	}
 
 	@Override public boolean isMet() {
 		return !super.isMet();
