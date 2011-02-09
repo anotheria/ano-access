@@ -1,5 +1,5 @@
 <ivy-module version="2.0">
-    <info organisation="anotheria.net" module="ano-security"/>
+    <info organisation="anotheria.net" module="ano-access"/>
 	<configurations >
 		<conf name="jar" />
 	</configurations>	
