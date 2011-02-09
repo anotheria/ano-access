@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 
-<project name="ano-security" default="dist" basedir=".">
+<project name="ano-access" default="dist" basedir=".">
 	<import file="../build/basic-project.xml"/>	
 	
 	<property name="ivy.organisation" value="anotheria.net"/>
-	<property name="ivy.module" value="ano-security"/>
+	<property name="ivy.module" value="ano-access"/>
 
 	<!-- 
 		checkout svn://svn.anotheria.net/opensource/build/trunk as ../build 
