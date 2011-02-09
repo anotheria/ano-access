@@ -4,7 +4,7 @@
 		<conf name="jar" />
 	</configurations>	
 	<publications>
-		<artifact name="ano-security" type="jar" ext="jar" conf="jar"/>
+		<artifact name="ano-access" type="jar" ext="jar" conf="jar"/>
     </publications>
     <dependencies>
     
