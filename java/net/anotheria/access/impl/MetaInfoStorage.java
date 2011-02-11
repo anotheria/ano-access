@@ -1,9 +1,12 @@
 package net.anotheria.access.impl;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import net.anotheria.access.Role;
+import net.anotheria.access.RoleInfo;
 
 public enum MetaInfoStorage {
 	INSTANCE;
@@ -22,6 +25,24 @@ public enum MetaInfoStorage {
 	public void addRole(Role role) {
 		roles.put(role.getName(), role);
 		
+	}
+	
+	//TODO:
+	public List<Role> getRoles() {
+		//go thru iterator.		
+		return new ArrayList<Role>(roles.values());
+	}
+	
+	//TODO:
+	public List<RoleInfo> getRoleInfos() {
+		List<RoleInfo> roleInfos = new ArrayList<RoleInfo>();
+		for (Role role : getRoles()) {
+			RoleInfo r = new RoleInfo();
+			r.setRoleName(role.getName());
+			r.setRoleType((role instanceof StaticRole )? "StaticRole" : "DynamicRole");
+			roleInfos.add(r);
+		}
+		return roleInfos;
 	}
 
 	public boolean hasRole(String roleName) {

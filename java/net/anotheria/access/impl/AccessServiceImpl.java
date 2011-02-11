@@ -6,17 +6,17 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import net.anotheria.access.AccessServiceReply;
 import net.anotheria.access.AccessService;
 import net.anotheria.access.AccessServiceException;
+import net.anotheria.access.AccessServiceReply;
 import net.anotheria.access.PermissionReply;
 import net.anotheria.access.Role;
 import net.anotheria.access.RoleInfo;
 import net.anotheria.access.SecurityObject;
 import net.anotheria.access.storage.SecurityBoxStorage;
 import net.anotheria.access.storage.SecurityBoxStorageBoxNotFoundException;
-import net.anotheria.access.storage.SecurityBoxStorageFactory;
 import net.anotheria.access.storage.SecurityBoxStorageException;
+import net.anotheria.access.storage.SecurityBoxStorageFactory;
 import net.anotheria.anoprise.cache.Cache;
 import net.anotheria.anoprise.cache.Caches;
 
@@ -165,7 +165,15 @@ public class AccessServiceImpl implements AccessService{
 	} 
 
 	@Override public List<RoleInfo> getRoleInfos() throws AccessServiceException {
-		return null; //cmsConnector.getRoleInfos();
+		//return null; //cmsConnector.getRoleInfos();
+		
+		return MetaInfoStorage.INSTANCE.getRoleInfos();
+	}
+	
+	@Override
+	public List<Role> getRoles() throws AccessServiceException {
+		// TODO Auto-generated method stub
+		return MetaInfoStorage.INSTANCE.getRoles();
 	}
 	
 	
@@ -226,7 +234,6 @@ public class AccessServiceImpl implements AccessService{
 	@Override public void addPermissionCollection(PermissionCollection collection) throws AccessServiceException{
 		MetaInfoStorage.INSTANCE.addPermissionCollection(collection);
 	}
-
 
 	
 }

@@ -3,17 +3,30 @@ package net.anotheria.access.storage;
 import java.io.File;
 
 import org.apache.log4j.Logger;
+import org.configureme.ConfigurationManager;
+import org.configureme.annotations.ConfigureMe;
 
+@ConfigureMe(allfields=true)
 public class SecurityBoxStorageConfig {
 	
 	private static Logger log = Logger.getLogger(SecurityBoxStorageConfig.class);
 	
+	private static final SecurityBoxStorageConfig INSTANCE = new SecurityBoxStorageConfig();
+	
 	private String extension;
+	
 	private String defPath;
 	
-	public SecurityBoxStorageConfig(String anExtension, String aDefPath){
-		extension = anExtension;
-		defPath = aDefPath;
+	private SecurityBoxStorageConfig() {
+		try{
+			ConfigurationManager.INSTANCE.configure(this);
+		}catch (IllegalArgumentException e) {
+			log.error("Config file not found. Initializtion failed.", e);
+        }
+	}
+	
+	public static SecurityBoxStorageConfig getInstance() {
+		return INSTANCE;
 	}
 
 	public String getExtension() {
@@ -41,8 +54,12 @@ public class SecurityBoxStorageConfig {
 		return filePath;
 	}
 	
-	protected String getDefPath(){
+	public String getDefPath(){
 		return defPath;
+	}
+
+	public void setDefPath(String defPath) {
+		this.defPath = defPath;
 	}
 
 	protected String getDefPath(@SuppressWarnings("unused") String aUserId){
@@ -50,8 +67,10 @@ public class SecurityBoxStorageConfig {
 	}
 	
 	public static void main(String a[]){
-		System.out.println("OLD "+new SecurityBoxStorageConfig(".vip", "/work/data/vip/").calculateFilePath("2571458"));
-		System.out.println("NEW "+new SecurityBoxStorageConfig(".vip", "/work/vip/data/").calculateFilePath("2571458"));
+//		System.out.println("OLD "+new SecurityBoxStorageConfig(".vip", "/work/data/vip/").calculateFilePath("2571458"));
+//		System.out.println("NEW "+new SecurityBoxStorageConfig(".vip", "/work/vip/data/").calculateFilePath("2571458"));
+		
+		System.out.println("OLD "+ SecurityBoxStorageConfig.INSTANCE.calculateFilePath("2571458"));
 	}
 
 	public String[] getFragmentation(String userId, int fragmentationDepth, int fragmentLength) {

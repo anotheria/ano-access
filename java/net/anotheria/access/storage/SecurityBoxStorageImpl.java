@@ -16,7 +16,7 @@ public class SecurityBoxStorageImpl implements SecurityBoxStorage{
 	
 	protected SecurityBoxStorageImpl(){
 		dcPersistenceService = DualCrudServiceFactory.createDualCrudService(
-				new SecurityBoxCrudService(new SecurityBoxStorageConfig(".sbx", "/tmp/anoaccess")),
+				new SecurityBoxCrudService(SecurityBoxStorageConfig.getInstance()),
 				null,//reserved for future migration projects
 				DualCrudConfig.useLeftOnly()); 
 	}

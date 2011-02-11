@@ -61,6 +61,13 @@ public interface AccessService {
 	 */
 	List<RoleInfo> getRoleInfos(SecurityObject object) throws AccessServiceException;
 	
+	/**
+	 * Returns all roles for all objects.
+	 * @return
+	 * @throws AccessServiceException
+	 */
+	List<Role> getRoles() throws AccessServiceException;
+	
 	//role management
 	void addRole(Role toAdd) throws AccessServiceException;
 	
