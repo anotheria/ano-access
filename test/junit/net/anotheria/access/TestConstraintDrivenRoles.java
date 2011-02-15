@@ -1,19 +1,18 @@
 package net.anotheria.access;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import net.anotheria.access.custom.FemaleObjectConstraint;
-import net.anotheria.access.custom.FemaleSubjectConstraint;
 import net.anotheria.access.custom.MaleObjectConstraint;
 import net.anotheria.access.custom.MaleSubjectConstraint;
 import net.anotheria.access.custom.SubjectAttributeIsEqualToObjectAttributeConstraint;
 import net.anotheria.access.impl.AccessServiceFactory;
-import net.anotheria.access.impl.Constraint;
 import net.anotheria.access.impl.PermissionCollection;
 import net.anotheria.access.impl.PermissionImpl;
 import net.anotheria.access.impl.StaticRole;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 //this test simulates product logic in which
 //product contains two types of roles, 
@@ -35,6 +34,7 @@ public class TestConstraintDrivenRoles {
 		System.out.println("Service "+service);
 		setupRolesAndPermissions();
 		setupUsers();
+		
 	}
 	 
 	private static void setupRolesAndPermissions() throws AccessServiceException{
@@ -53,6 +53,7 @@ public class TestConstraintDrivenRoles {
 		
 		PermissionCollection premiumCollection = new PermissionCollection("premium");
 		premiumCollection.add(premiumRead, premiumWrite);
+		
 		service.addPermissionCollection(premiumCollection);
 		
 		StaticRole premiumRole = new StaticRole("premium");
@@ -121,7 +122,12 @@ public class TestConstraintDrivenRoles {
 			service.grantRole(ret, "premium");
 		return ret;
 		
+	}	
+	
+	@Test(expected=RuntimeException.class) public void testGetNotCreatedPermissionCollection() {
+		service.getPermissionColecction("temprr");
 	}
+	
 	
 	@Test public void testPremium2PremiumWrite() throws AccessServiceException{
 		assertTrue(allowed("write", pm_at, pm_at));

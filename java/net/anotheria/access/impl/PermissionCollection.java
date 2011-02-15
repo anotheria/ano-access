@@ -44,12 +44,23 @@ public class PermissionCollection implements Serializable{
 		return "Id "+getId()+" Collection {"+permissions+"}";
 	}
 	
-	public void add(Permission p, Permission ...pp){
-		permissions.add(p);
+	public void add(Permission p, Permission ...pp){		
+		if (!containsPermission(p)) 
+			permissions.add(p);
 		if (pp!=null){
-			for (Permission fromP : pp)
-				permissions.add(fromP);
+			for (Permission fromP : pp) {
+				if (!containsPermission(fromP)) 
+					permissions.add(fromP);				
+			}
 		}
+	}
+	
+	private boolean containsPermission(Permission p) {		
+		for(Permission pr : permissions) {
+			if (pr.getName().equals(p.getName())) 
+				return true;
+		}
+		return false;
 	}
 	
 	public void firePermissionUpdate(String permissionName){

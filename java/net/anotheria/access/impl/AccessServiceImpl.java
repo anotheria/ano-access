@@ -235,5 +235,14 @@ public class AccessServiceImpl implements AccessService{
 		MetaInfoStorage.INSTANCE.addPermissionCollection(collection);
 	}
 
+	@Override
+	public Role getRoleByName(String roleName) throws AccessServiceException {		
+		return MetaInfoStorage.INSTANCE.getRole(roleName);
+	}
+
+	@Override
+	public PermissionCollection getPermissionColecction(String collectionName) throws RuntimeException {		
+		return MetaInfoStorage.INSTANCE.getPermissionCollection(collectionName);
+	}
 	
 }

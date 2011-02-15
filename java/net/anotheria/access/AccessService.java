@@ -68,11 +68,19 @@ public interface AccessService {
 	 */
 	List<Role> getRoles() throws AccessServiceException;
 	
+	/**
+	 * Get role in storage by role name.
+	 * @param roleName - role to get
+	 * @return
+	 * @throws AccessServiceException
+	 */
+	Role getRoleByName(String roleName) throws AccessServiceException;
+	
 	//role management
 	void addRole(Role toAdd) throws AccessServiceException;
 	
 	void addPermissionCollection(PermissionCollection collection) throws AccessServiceException;
 	
-	
+	PermissionCollection getPermissionColecction(String collectionName) throws RuntimeException;
 	
 }
