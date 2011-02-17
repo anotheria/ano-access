@@ -55,12 +55,17 @@ public class PermissionCollection implements Serializable{
 		}
 	}
 	
+	public void remove(Permission p) {
+		permissions.remove(p);
+	}
+	
 	private boolean containsPermission(Permission p) {		
-		for(Permission pr : permissions) {
-			if (pr.getName().equals(p.getName())) 
-				return true;
-		}
-		return false;
+//		for(Permission pr : permissions) {
+//			if (pr.getName().equals(p.getName())) 
+//				return true;
+//		}
+//		return false;
+		return permissions.contains(p);
 	}
 	
 	public void firePermissionUpdate(String permissionName){
@@ -71,6 +76,10 @@ public class PermissionCollection implements Serializable{
 			}
 			
 		}
+	}
+	
+	public List<Permission> getPermissions() {
+		return permissions;
 	}
 
 	public String getId() {

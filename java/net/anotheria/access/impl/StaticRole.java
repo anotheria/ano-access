@@ -59,4 +59,25 @@ public class StaticRole extends AbstractRole implements Role {
 	public String toString(){
 		return super.toString()+" PSetId: "+getPermissionSetId()+", Coll: "+collection;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 42;
+		int result = 1;
+		result = prime * result + getName().hashCode(); // is it working for subclass?
+		result = prime * result + permissionSetId.hashCode();
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof StaticRole) {
+			StaticRole dest = (StaticRole)obj;
+			if (this.getName().equals(dest.getName()) 
+				&& this.getPermissionSetId().equals(dest.getPermissionSetId())) { // this line could be broken...
+				return true;
+			}
+		}
+		return false;
+	}
 }

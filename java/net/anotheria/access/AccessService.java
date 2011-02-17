@@ -79,8 +79,10 @@ public interface AccessService {
 	//role management
 	void addRole(Role toAdd) throws AccessServiceException;
 	
+	boolean deleteRole(Role toDelete) throws AccessServiceException;
+	
 	void addPermissionCollection(PermissionCollection collection) throws AccessServiceException;
 	
-	PermissionCollection getPermissionColecction(String collectionName) throws RuntimeException;
+	PermissionCollection getPermissionCollection(String collectionName) throws RuntimeException;
 	
 }

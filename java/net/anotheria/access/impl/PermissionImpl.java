@@ -94,4 +94,28 @@ public class PermissionImpl extends Constraintable implements Serializable, Perm
 				((FireableConstraint)c).notifyFired();
 		
 	}
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof PermissionImpl ) {			
+			PermissionImpl dest = (PermissionImpl)obj;			
+			if (this.getName().equals(dest.getName()) && 
+				this.getAction().equals(dest.getAction()) &&
+				this.getPriority() == dest.getPriority() &&
+				this.isAllow() == dest.isAllow()) {
+				return true;				
+			} 
+		}
+		return false;
+	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + priority;
+		result = prime * result + action.hashCode();
+		result = prime * result + name.hashCode();
+		result = prime * result + (allow ? 1231 : 1237);
+		return result;
+	}
+	
 }

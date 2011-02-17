@@ -160,19 +160,16 @@ public class AccessServiceImpl implements AccessService{
 		SecurityBox box = loadBox(object);
 		List<String> roleNames = box.getOwnedRoles();
 		if (roleNames==null || roleNames.size()==0)
-			return EMPTY_LIST;
-		return null;//cmsConnector.getRoleInfos(roleNames);
-	} 
+			return EMPTY_LIST;		
+		return MetaInfoStorage.INSTANCE.getRoleInfos(roleNames);
+	}
 
-	@Override public List<RoleInfo> getRoleInfos() throws AccessServiceException {
-		//return null; //cmsConnector.getRoleInfos();
-		
+	@Override public List<RoleInfo> getRoleInfos() throws AccessServiceException {		
 		return MetaInfoStorage.INSTANCE.getRoleInfos();
 	}
 	
 	@Override
 	public List<Role> getRoles() throws AccessServiceException {
-		// TODO Auto-generated method stub
 		return MetaInfoStorage.INSTANCE.getRoles();
 	}
 	
@@ -241,8 +238,13 @@ public class AccessServiceImpl implements AccessService{
 	}
 
 	@Override
-	public PermissionCollection getPermissionColecction(String collectionName) throws RuntimeException {		
+	public PermissionCollection getPermissionCollection(String collectionName) throws RuntimeException { //IIII>???????? 		
 		return MetaInfoStorage.INSTANCE.getPermissionCollection(collectionName);
+	}
+
+	@Override
+	public boolean deleteRole(Role toDelete) throws AccessServiceException {
+		return MetaInfoStorage.INSTANCE.deleteRole(toDelete);		
 	}
 	
 }

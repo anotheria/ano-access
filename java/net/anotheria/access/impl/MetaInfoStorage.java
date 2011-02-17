@@ -27,22 +27,25 @@ public enum MetaInfoStorage {
 		
 	}
 	
-	//TODO:
 	public List<Role> getRoles() {
-		//go thru iterator.		
 		return new ArrayList<Role>(roles.values());
 	}
 	
-	//TODO:
 	public List<RoleInfo> getRoleInfos() {
 		List<RoleInfo> roleInfos = new ArrayList<RoleInfo>();
-		for (Role role : getRoles()) {
-			RoleInfo r = new RoleInfo();
-			r.setRoleName(role.getName());
-			r.setRoleType((role instanceof StaticRole )? "StaticRole" : "DynamicRole");
-			roleInfos.add(r);
+		for (Role role : getRoles()) {			
+			roleInfos.add(convertToRoleInfo(role));
 		}
 		return roleInfos;
+	}
+	
+	public List<RoleInfo> getRoleInfos(List<String> roleNames) {
+		List<RoleInfo> roleInfoList = new ArrayList<RoleInfo>();
+		for (Role role : roles.values()) {
+			if (roleNames.contains(role.getName())) 
+				roleInfoList.add(convertToRoleInfo(role));
+		}
+		return roleInfoList;
 	}
 
 	public boolean hasRole(String roleName) {
@@ -63,6 +66,18 @@ public enum MetaInfoStorage {
 
 	public boolean hasPermissionCollection(String collectionName) {
 		return collections.containsKey(collectionName);
+	}
+	
+	private RoleInfo convertToRoleInfo(Role role) {
+		RoleInfo rInfo = new RoleInfo();
+		rInfo.setRoleName(role.getName());
+		rInfo.setRoleType((role instanceof StaticRole )? "StaticRole" : "DynamicRole");
+		return rInfo;
+	}
+
+	public boolean deleteRole(Role toDelete) {
+		return roles.remove(toDelete.getName(), toDelete);
+		
 	}
 	
 }
