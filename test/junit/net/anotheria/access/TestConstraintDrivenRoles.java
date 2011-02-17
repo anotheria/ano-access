@@ -125,7 +125,7 @@ public class TestConstraintDrivenRoles {
 	}	
 	
 	@Test(expected=RuntimeException.class) public void testGetNotCreatedPermissionCollection() {
-		service.getPermissionColecction("temprr");
+		service.getPermissionCollection("temprr");
 	}
 	
 	
