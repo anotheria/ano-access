@@ -49,6 +49,15 @@ public class SOAttribute {
 		return getName()+"="+getValue();
 	}
 	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((value == null) ? 0 : value.hashCode());
+		return result;
+	}
+	
 	@Override public boolean equals(Object o){
 		return o instanceof SOAttribute ? 
 				BasicComparable.compareString(getName(), ((SOAttribute)o).getName()) == 0 &&
