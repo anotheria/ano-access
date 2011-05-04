@@ -212,6 +212,31 @@ public class AccessServiceImpl implements AccessService{
 			log.error("saveBox", e);
 			throw new AccessServiceException("Can't save security box: "+e.getMessage() );
 		}
+	}	
+	
+	public void deleteSecurityObject(SecurityObject object) throws AccessServiceException {
+		try {
+			SecurityBox fromStorage = storage.loadSecurityBox(object.getId());			
+			if (fromStorage != null)
+				deleteBox(fromStorage);			
+		} catch (SecurityBoxStorageBoxNotFoundException e) {
+			log.error("Can't delete box. ", e);
+			throw new AccessServiceException("Box not found. "+ e.getMessage());
+		} catch (SecurityBoxStorageException e) {
+			log.error("Can't delete box. ", e);
+			throw new AccessServiceException("Can't delete box. "+ e.getMessage());
+		}
+		
+	}
+
+	private void deleteBox(SecurityBox box) throws AccessServiceException{
+		try {
+			cache.remove(box.getOwnerId());			
+			storage.deleteSecurityBox(box);
+		}catch (SecurityBoxStorageException e) {
+			log.error("deleteBox", e);
+			throw new AccessServiceException("Can't delete security box: "+e.getMessage() );
+		}
 	}
 	
 	/**

@@ -9,40 +9,47 @@ import net.anotheria.anoprise.dualcrud.ItemNotFoundException;
 
 import org.apache.log4j.Logger;
 
+public class SecurityBoxStorageImpl implements SecurityBoxStorage {
 
-public class SecurityBoxStorageImpl implements SecurityBoxStorage{
-	
 	private DualCrudService<SecurityBox> dcPersistenceService;
-	
-	protected SecurityBoxStorageImpl(){
-		dcPersistenceService = DualCrudServiceFactory.createDualCrudService(
-				new SecurityBoxCrudService(SecurityBoxStorageConfig.getInstance()),
-				null,//reserved for future migration projects
-				DualCrudConfig.useLeftOnly()); 
+
+	protected SecurityBoxStorageImpl() {
+		dcPersistenceService = DualCrudServiceFactory.createDualCrudService(new SecurityBoxCrudService(
+				SecurityBoxStorageConfig.getInstance()), null,// reserved for
+																// future
+																// migration
+																// projects
+				DualCrudConfig.useLeftOnly());
 	}
-	
+
 	private static Logger log = Logger.getLogger(SecurityBoxStorageImpl.class);
 
-	public SecurityBox loadSecurityBox(String objectId)	throws SecurityBoxStorageException, SecurityBoxStorageBoxNotFoundException {
-		try{
+	public SecurityBox loadSecurityBox(String objectId) throws SecurityBoxStorageException,
+			SecurityBoxStorageBoxNotFoundException {
+		try {
 			return dcPersistenceService.read(objectId);
-		}catch(ItemNotFoundException notFound){
+		} catch (ItemNotFoundException notFound) {
 			throw new SecurityBoxStorageBoxNotFoundException(notFound.getMessage());
-		}catch(CrudServiceException e){
-			log.error("loadSecurityBox("+objectId+")",e );
+		} catch (CrudServiceException e) {
+			log.error("loadSecurityBox(" + objectId + ")", e);
 			throw new SecurityBoxStorageException(e.getMessage());
 		}
 	}
-
 
 	public void saveSecurityBox(SecurityBox box) throws SecurityBoxStorageException {
-		try{
+		try {
 			dcPersistenceService.save(box);
-		}catch(CrudServiceException e){
-			log.error("saveSecurityBox("+box+")", e);
+		} catch (CrudServiceException e) {
+			log.error("saveSecurityBox(" + box + ")", e);
 			throw new SecurityBoxStorageException(e.getMessage());
 		}
 	}
-	
-	
+
+	public void deleteSecurityBox(SecurityBox box) throws SecurityBoxStorageException {
+		try {
+			dcPersistenceService.delete(box);
+		} catch (CrudServiceException e) {
+			throw new SecurityBoxStorageException(e.getMessage());
+		}
+	}
 }

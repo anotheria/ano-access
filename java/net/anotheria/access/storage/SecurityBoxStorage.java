@@ -19,4 +19,10 @@ public interface SecurityBoxStorage {
 	 */
 	void saveSecurityBox(SecurityBox box) throws SecurityBoxStorageException;
 
+	/**
+	 * Deletes previously created security box from storage.
+	 * @param box - box to be deleted
+	 * @throws SecurityBoxStorageException
+	 */
+	void deleteSecurityBox(SecurityBox box) throws SecurityBoxStorageException;
 }

@@ -76,13 +76,40 @@ public interface AccessService {
 	 */
 	Role getRoleByName(String roleName) throws AccessServiceException;
 	
-	//role management
+	/**
+	 * Adds Configured Role to role storage.
+	 * @param toAdd
+	 * @throws AccessServiceException
+	 */
 	void addRole(Role toAdd) throws AccessServiceException;
 	
+	/**
+	 * Removes given role from storage.
+	 * @param toDelete
+	 * @return
+	 * @throws AccessServiceException
+	 */
 	boolean deleteRole(Role toDelete) throws AccessServiceException;
 	
+	/**
+	 * Adds configured permission collection to storage.
+	 * @param collection
+	 * @throws AccessServiceException
+	 */
 	void addPermissionCollection(PermissionCollection collection) throws AccessServiceException;
 	
-	PermissionCollection getPermissionCollection(String collectionName) throws RuntimeException;
+	/**
+	 * Returns PermissionCollection by it's name.
+	 * @param collectionName
+	 * @return
+	 * @throws RuntimeException
+	 */
+	PermissionCollection getPermissionCollection(String collectionName) throws RuntimeException;	
 	
+	/**
+	 * Removes security object from storage. 
+	 * @param object
+	 * @throws AccessServiceException
+	 */
+	void deleteSecurityObject(SecurityObject object)  throws AccessServiceException;
 }
