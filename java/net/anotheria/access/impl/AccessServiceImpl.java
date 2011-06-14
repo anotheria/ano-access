@@ -209,10 +209,10 @@ public class AccessServiceImpl implements AccessService{
 			cache.put(box.getOwnerId(), box);
 			storage.saveSecurityBox(box);
 		}catch (SecurityBoxStorageException e) {
-			log.error("saveBox", e);
-			throw new AccessServiceException("Can't save security box: "+e.getMessage() );
+			log.error("saveBox(box of "+box.getOwnerId()+")", e);
+			throw new AccessServiceException("Can't save security box", e);
 		}
-	}	
+	}
 	
 	public void deleteSecurityObject(SecurityObject object) throws AccessServiceException {
 		try {
