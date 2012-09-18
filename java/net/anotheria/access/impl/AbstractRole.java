@@ -1,36 +1,46 @@
 package net.anotheria.access.impl;
 
-import java.io.Serializable;
-
 import net.anotheria.access.Role;
 
 /**
- * Base class for constaints.
+ * Base class for {@link Role} implementation.
+ * 
  * @author another
- *
+ * 
  */
-public abstract class AbstractRole extends Constraintable implements Serializable, Role{
+public abstract class AbstractRole extends Constraintable implements Role {
+
 	/**
-	 * Name of the role.
+	 * Basic serialVersionUID variable.
+	 */
+	private static final long serialVersionUID = -5881856648501113435L;
+
+	/**
+	 * Role name.
 	 */
 	private String name;
-	
-	protected AbstractRole(String aName){
-		name = aName;
-	}
-	
-	@Override public String toString(){
-		return "Role: "+getName()+" "+super.toString();
+
+	/**
+	 * Default constructor.
+	 * 
+	 * @param aName
+	 *            - role name
+	 */
+	protected AbstractRole(final String aName) {
+		this.name = aName;
 	}
 
 	public String getName() {
 		return name;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setName(String aName) {
+		this.name = aName;
 	}
 
-	
-	
+	@Override
+	public String toString() {
+		return "Role: " + getName() + " " + super.toString();
+	}
+
 }

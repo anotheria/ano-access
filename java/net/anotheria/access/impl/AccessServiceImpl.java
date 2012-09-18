@@ -3,8 +3,6 @@ package net.anotheria.access.impl;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import net.anotheria.access.AccessService;
 import net.anotheria.access.AccessServiceException;
@@ -13,263 +11,279 @@ import net.anotheria.access.PermissionReply;
 import net.anotheria.access.Role;
 import net.anotheria.access.RoleInfo;
 import net.anotheria.access.SecurityObject;
-import net.anotheria.access.storage.SecurityBoxStorage;
-import net.anotheria.access.storage.SecurityBoxStorageBoxNotFoundException;
-import net.anotheria.access.storage.SecurityBoxStorageException;
-import net.anotheria.access.storage.SecurityBoxStorageFactory;
+import net.anotheria.access.storage.SecurityBoxStorageService;
+import net.anotheria.access.storage.SecurityBoxStorageServiceBoxNotFoundException;
+import net.anotheria.access.storage.SecurityBoxStorageServiceException;
+import net.anotheria.access.util.CacheUtil;
 import net.anotheria.anoprise.cache.Cache;
-import net.anotheria.anoprise.cache.Caches;
+import net.anotheria.anoprise.metafactory.MetaFactory;
+import net.anotheria.anoprise.metafactory.MetaFactoryException;
 
 import org.apache.log4j.Logger;
 
 /**
- * The implementation of the access service.
- * @author another
- *
+ * The implementation {@link AccessService}.
+ * 
+ * @author Leon Rosenberg, Alexandr Bolbat
  */
-public class AccessServiceImpl implements AccessService{
+public class AccessServiceImpl implements AccessService {
+
 	/**
-	 * Internal box storage.
+	 * {@link Logger} instance.
 	 */
-	private SecurityBoxStorage storage;
+	private static final Logger LOGGER = Logger.getLogger(AccessServiceImpl.class);
+
 	/**
-	 * Log.
+	 * {@link SecurityBoxStorageService} instance.
 	 */
-	private static Logger log = Logger.getLogger(AccessServiceImpl.class);
+	private final SecurityBoxStorageService storage;
+
 	/**
 	 * Cache of the security boxes.
 	 */
-	private Cache<String, SecurityBox> cache;
-	
+	private final Cache<String, SecurityBox> cache;
+
+	/**
+	 * Empty roles information list.
+	 */
 	private static List<RoleInfo> EMPTY_LIST = new ArrayList<RoleInfo>(0);
-	
-	
-	AccessServiceImpl(){
-		storage = SecurityBoxStorageFactory.createStorage();
-		try{
-			cache = Caches.createConfigurableSoftReferenceCache("ano-access.cache");
-		}catch(IllegalArgumentException e){
-			log.warn("Cache is not configured");
-			cache = Caches.createSoftReferenceCache("ano-access.cache", 1000, 5000);
+
+	/**
+	 * Default constructor.
+	 */
+	protected AccessServiceImpl() {
+		try {
+			storage = MetaFactory.get(SecurityBoxStorageService.class);
+		} catch (MetaFactoryException e) {
+			throw new RuntimeException("AccessServiceImpl() initialization fail.", e);
 		}
-		new Timer().scheduleAtFixedRate(new TimerTask() {
-			
-			@Override
-			public void run() {
-				log.info("Access Cache state: "+cache.getCacheStats().toString());
-			}
-		}, 0, 1000L*60*5);
+		cache = CacheUtil.createConfigurableSoftReferenceCache("ano-access-cache");
 	}
 
-	@Override public AccessServiceReply isAllowed(String action, SecurityObject object, SecurityObject subject) throws   AccessServiceException{
+	@Override
+	public AccessServiceReply isAllowed(final String action, final SecurityObject object, final SecurityObject subject) throws AccessServiceException {
 		AccessContext context = AccessContext.getContext();
 		context.reset();
 		context.setObject(object);
 		context.setSubject(subject);
-		out("called isAllowed("+action+", "+object+", "+subject+")");
-		
+		out("called isAllowed(" + action + ", " + object + ", " + subject + ")");
+
 		SecurityBox box = loadBox(object);
 		Collection<Role> roles = box.getRoles();
-		
+
 		PermissionReply current = null;
-		
-		for (Role r : roles){
-			out("Checking with role: "+r);
-			PermissionReply pr = r.isAllowed(action);
-			if (current==null)
-				current = pr;
-			else
-				if (pr!=null && pr.getPriority()>current.getPriority()){
-					out(pr+" overrides "+current);
-					current = pr;
-				}
+
+		for (Role role : roles) {
+			out("Checking with role: " + role);
+			PermissionReply pReply = role.isAllowed(action);
+			if (current == null)
+				current = pReply;
+
+			else if (pReply != null && pReply.getPriority() > current.getPriority()) {
+				out(pReply + " overrides " + current);
+				current = pReply;
+			}
 		}
-		
+
 		if (current == null)
 			return AccessServiceReply.UNDECIDED;
-		AccessServiceReply ret = new AccessServiceReply();
-		ret.setAnswered(true);
-		ret.setAllowed(current.isAllow());
-		ret.setDecidedByPermission(current.getPermissionName());
-		ret.setDecidedByRole(current.getRoleName());
-		ret.setDecidedByPermissionPriority(current.getPriority());
-		
-		return ret;
+
+		AccessServiceReply result = new AccessServiceReply();
+		result.setAnswered(true);
+		result.setAllowed(current.isAllow());
+		result.setDecidedByPermission(current.getPermissionName());
+		result.setDecidedByRole(current.getRoleName());
+		result.setDecidedByPermissionPriority(current.getPriority());
+
+		return result;
 	}
-	
-	@Override public void notifyPassed(String action, SecurityObject object, SecurityObject subject, AccessServiceReply basedUponReply) throws   AccessServiceException{
+
+	@Override
+	public void notifyPassed(final String action, final SecurityObject object, final SecurityObject subject, AccessServiceReply basedUponReply)
+			throws AccessServiceException {
 		AccessContext context = AccessContext.getContext();
 		context.reset();
 		context.setObject(object);
 		context.setSubject(subject);
-		out("notifyPassed("+action+", "+object+", "+subject+"," +basedUponReply+")");
-		
+		out("notifyPassed(" + action + ", " + object + ", " + subject + "," + basedUponReply + ")");
+
 		SecurityBox box = loadBox(object);
 		Collection<Role> roles = box.getRoles();
-		
-		for (Role r : roles){
-			out("Checking with role: "+r);
-			if (r.getName().equals(basedUponReply.getDecidedByRole())){
-				if (r instanceof DynamicRole){
-					((DynamicRole)r).firePermissionUpdate(basedUponReply.getDecidedByPermission());
+
+		for (Role r : roles) {
+			out("Checking with role: " + r);
+			if (r.getName().equals(basedUponReply.getDecidedByRole())) {
+				if (r instanceof DynamicRole) {
+					((DynamicRole) r).firePermissionUpdate(basedUponReply.getDecidedByPermission());
 					break;
 				}
 			}
 		}
-		
+
 		if (context.isDirty())
 			saveBox(box);
-		
 	}
 
-	@Override public void grantRole(SecurityObject object, String roleName)  throws AccessServiceException{
-
+	@Override
+	public void grantRole(final SecurityObject object, final String roleName) throws AccessServiceException {
 		SecurityBox box = loadBox(object);
-		
+
 		if (box.hasRole(roleName))
 			return;
-		
-		out("has to grant role "+roleName+" to "+object);
-		
-		Role toGrant = MetaInfoStorage.INSTANCE.getRole(roleName);//cmsConnector.getRole(roleName);
-		out("created role: "+toGrant);
-		
+
+		out("has to grant role " + roleName + " to " + object);
+
+		Role toGrant = MetaInfoStorage.INSTANCE.getRole(roleName);
+		out("created role: " + toGrant);
+
 		box.addRole(toGrant);
-		
+
 		saveBox(box);
 	}
-	
-	@Override public void revokeRole(SecurityObject object, String roleName)  throws AccessServiceException{
 
+	@Override
+	public void revokeRole(final SecurityObject object, final String roleName) throws AccessServiceException {
 		SecurityBox box = loadBox(object);
-		
+
 		if (!box.hasRole(roleName))
 			return;
-		
-		out("has to revoke role "+roleName+" to "+object);
-		
+
+		out("has to revoke role " + roleName + " to " + object);
 		box.removeRole(roleName);
-		
+
 		saveBox(box);
 	}
 
-	
-	
-	
-	@Override public List<RoleInfo> getRoleInfos(SecurityObject object) throws AccessServiceException{
+	@Override
+	public List<RoleInfo> getRoleInfos() throws AccessServiceException {
+		return MetaInfoStorage.INSTANCE.getRoleInfos();
+	}
+
+	@Override
+	public List<RoleInfo> getRoleInfos(final SecurityObject object) throws AccessServiceException {
 		SecurityBox box = loadBox(object);
 		List<String> roleNames = box.getOwnedRoles();
-		if (roleNames==null || roleNames.size()==0)
-			return EMPTY_LIST;		
+		if (roleNames == null || roleNames.size() == 0)
+			return EMPTY_LIST;
+
 		return MetaInfoStorage.INSTANCE.getRoleInfos(roleNames);
 	}
 
-	@Override public List<RoleInfo> getRoleInfos() throws AccessServiceException {		
-		return MetaInfoStorage.INSTANCE.getRoleInfos();
-	}
-	
 	@Override
 	public List<Role> getRoles() throws AccessServiceException {
 		return MetaInfoStorage.INSTANCE.getRoles();
 	}
-	
-	
-	/**
-	 * Loads a security box.
-	 * @param object
-	 * @return
-	 */
-	private SecurityBox loadBox(SecurityObject object){
-		
-		SecurityBox fromCache = cache.get(object.getId());
-		if (fromCache!=null)
-			return fromCache;
-		
-		try{
-			SecurityBox fromStorage = storage.loadSecurityBox(object.getId());
-			if (fromStorage!=null)
-				cache.put(object.getId(), fromStorage);
-			return fromStorage;
-		}catch (SecurityBoxStorageBoxNotFoundException notFound){
-			SecurityBox newBox = new SecurityBox(object.getId());
-			cache.put(object.getId(), newBox);
-			return newBox;
-		}catch(Exception e){
-			return new SecurityBox(object.getId());
-		}
-	}
-	
-	/**
-	 * Saves a security box.
-	 * @param box
-	 * @throws AccessServiceException
-	 */
-	private void saveBox(SecurityBox box) throws AccessServiceException{
-		try {
-			cache.put(box.getOwnerId(), box);
-			storage.saveSecurityBox(box);
-		}catch (SecurityBoxStorageException e) {
-			log.error("saveBox(box of "+box.getOwnerId()+")", e);
-			throw new AccessServiceException("Can't save security box", e);
-		}
-	}
-	
-	public void deleteSecurityObject(SecurityObject object) throws AccessServiceException {
-		try {
-			SecurityBox fromStorage = storage.loadSecurityBox(object.getId());			
-			if (fromStorage != null)
-				deleteBox(fromStorage);			
-		} catch (SecurityBoxStorageBoxNotFoundException e) {
-			log.error("Can't delete box. ", e);
-			throw new AccessServiceException("Box not found. "+ e.getMessage());
-		} catch (SecurityBoxStorageException e) {
-			log.error("Can't delete box. ", e);
-			throw new AccessServiceException("Can't delete box. "+ e.getMessage());
-		}
-		
-	}
-
-	private void deleteBox(SecurityBox box) throws AccessServiceException{
-		try {
-			cache.remove(box.getOwnerId());			
-			storage.deleteSecurityBox(box);
-		}catch (SecurityBoxStorageException e) {
-			log.error("deleteBox", e);
-			throw new AccessServiceException("Can't delete security box: "+e.getMessage() );
-		}
-	}
-	
-	/**
-	 * Debug-outs the object (which may be a string itself).
-	 * @param o
-	 */
-	private void out(Object o){
-		if (AccessContext.getContext().debugOutOn())
-			log.debug("[BouncerServiceImpl] "+o);
-	}
 
 	@Override
-	public void addRole(Role toAdd) throws AccessServiceException {
-		MetaInfoStorage.INSTANCE.addRole(toAdd);
-	}
-	
-	@Override public void addPermissionCollection(PermissionCollection collection) throws AccessServiceException{
-		MetaInfoStorage.INSTANCE.addPermissionCollection(collection);
-	}
-
-	@Override
-	public Role getRoleByName(String roleName) throws AccessServiceException {		
+	public Role getRole(String roleName) throws AccessServiceException {
 		return MetaInfoStorage.INSTANCE.getRole(roleName);
 	}
 
 	@Override
-	public PermissionCollection getPermissionCollection(String collectionName) throws RuntimeException { //IIII>???????? 		
+	public void addRole(Role role) throws AccessServiceException {
+		MetaInfoStorage.INSTANCE.addRole(role);
+	}
+
+	@Override
+	public boolean deleteRole(final Role role) throws AccessServiceException {
+		return MetaInfoStorage.INSTANCE.deleteRole(role);
+	}
+
+	@Override
+	public void addPermissionCollection(PermissionCollection collection) throws AccessServiceException {
+		MetaInfoStorage.INSTANCE.addPermissionCollection(collection);
+	}
+
+	@Override
+	public PermissionCollection getPermissionCollection(String collectionName) throws RuntimeException {
 		return MetaInfoStorage.INSTANCE.getPermissionCollection(collectionName);
 	}
 
 	@Override
-	public boolean deleteRole(Role toDelete) throws AccessServiceException {
-		return MetaInfoStorage.INSTANCE.deleteRole(toDelete);		
+	public void deleteSecurityObject(SecurityObject object) throws AccessServiceException {
+		try {
+			SecurityBox fromStorage = storage.loadSecurityBox(object.getId());
+			if (fromStorage != null)
+				deleteBox(fromStorage);
+		} catch (SecurityBoxStorageServiceBoxNotFoundException e) {
+			LOGGER.error("Can't delete box. ", e);
+			throw new AccessServiceException("Box not found. " + e.getMessage());
+		} catch (SecurityBoxStorageServiceException e) {
+			LOGGER.error("Can't delete box. ", e);
+			throw new AccessServiceException("Can't delete box. " + e.getMessage());
+		}
+
 	}
-	
+
+	/**
+	 * Load {@link SecurityBox}.
+	 * 
+	 * @param object
+	 *            - security object
+	 * @return {@link SecurityBox}
+	 */
+	private SecurityBox loadBox(SecurityObject object) {
+		SecurityBox fromCache = cache.get(object.getId());
+		if (fromCache != null)
+			return fromCache;
+
+		try {
+			SecurityBox fromStorage = storage.loadSecurityBox(object.getId());
+			if (fromStorage != null)
+				cache.put(object.getId(), fromStorage);
+
+			return fromStorage;
+		} catch (SecurityBoxStorageServiceBoxNotFoundException notFound) {
+			SecurityBox newBox = new SecurityBox(object.getId());
+			cache.put(object.getId(), newBox);
+			return newBox;
+		} catch (Exception e) {
+			return new SecurityBox(object.getId());
+		}
+	}
+
+	/**
+	 * Save a {@link SecurityBox}.
+	 * 
+	 * @param box
+	 *            - security box
+	 * @throws AccessServiceException
+	 */
+	private void saveBox(SecurityBox box) throws AccessServiceException {
+		try {
+			cache.put(box.getOwnerId(), box);
+			storage.saveSecurityBox(box);
+		} catch (SecurityBoxStorageServiceException e) {
+			LOGGER.error("saveBox(box of " + box.getOwnerId() + ")", e);
+			throw new AccessServiceException("Can't save security box", e);
+		}
+	}
+
+	/**
+	 * Delete {@link SecurityBox}.
+	 * 
+	 * @param box
+	 *            - {@link SecurityBox}
+	 * @throws AccessServiceException
+	 */
+	private void deleteBox(SecurityBox box) throws AccessServiceException {
+		try {
+			cache.remove(box.getOwnerId());
+			storage.deleteSecurityBox(box);
+		} catch (SecurityBoxStorageServiceException e) {
+			LOGGER.error("deleteBox", e);
+			throw new AccessServiceException("Can't delete security box: " + e.getMessage());
+		}
+	}
+
+	/**
+	 * Debug-outs the object (which may be a string itself).
+	 * 
+	 * @param o
+	 */
+	private static void out(final Object o) {
+		if (LOGGER.isDebugEnabled())
+			LOGGER.debug(o);
+	}
+
 }

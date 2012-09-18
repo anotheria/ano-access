@@ -1,11 +1,12 @@
 package net.anotheria.access;
+
 /**
  * Contains constants which are used through the bouncer service.
- * @author another
- *
+ * 
+ * @author Leon Rosenberg
  */
 public class Ontology {
-	
+
 	/**
 	 * The gender attribute name.
 	 */
@@ -26,22 +27,21 @@ public class Ontology {
 	 * registration language of the user (derived from agency)
 	 */
 	public static final String ATT_REG_LANG = id("regLang");
-	
+
 	public static final String ATT_VAL_FEMALE = id("female");
 	public static final String ATT_VAL_MALE = id("male");
-	
+
 	public static final String ATT_VAL_STATUS_MEMBER = id("member");
 	public static final String ATT_VAL_STATUS_PREMIUM = id("premium");
-	
-	
-	
-	
-	
-	
+
 	/**
 	 * Prevent compiler caching.
+	 * 
 	 * @param s
 	 * @return
 	 */
-	private static String id(String s){ return s; }
+	private static String id(String s) {
+		return s;
+	}
+
 }

@@ -1,54 +1,73 @@
 package net.anotheria.access;
 
+import java.io.Serializable;
+
 import net.anotheria.util.BasicComparable;
+
 /**
- * An attribute in the Security Object. Attributes may be different things evaluated by the constraints. An attribute can be the registration country,
- * the number of messages in the inbox, number of stored favorites, user gender or status etc. 
- * @author lrosenberg
- *
+ * Attribute in the {@link SecurityObject}. <br>
+ * Attributes may be different things evaluated by the constraints. <br>
+ * An attribute can be the registration country, the number of messages in the inbox, number of stored favorites, user gender, status, etc.
+ * 
+ * @author Leon Rosenberg, Alexandr Bolbat
  */
-public class SOAttribute {
+public class SOAttribute implements Serializable {
+
 	/**
-	 * The name of the attribute.
+	 * Basic serialVersionUID variable.
+	 */
+	private static final long serialVersionUID = -3399290755174491710L;
+
+	/**
+	 * Attribute name.
 	 */
 	private String name;
+
 	/**
-	 * The value of the attribute. The value is interpreted by the constraint and can be virtually anything. However the bouncer treats the value as string.
+	 * Attribute value.
 	 */
 	private String value;
+
 	/**
-	 * Creates a new empty attribute.
+	 * Default constructor.
 	 */
-	public SOAttribute(){
-		
+	public SOAttribute() {
 	}
+
 	/**
-	 * Creates a new attribute.
+	 * Public constructor.
+	 * 
 	 * @param aName
+	 *            - attribute name
 	 * @param aValue
+	 *            - attribute value
 	 */
-	public SOAttribute(String aName, String aValue){
-		name = aName;
-		value = aValue;
+	public SOAttribute(final String aName, final String aValue) {
+		this.name = aName;
+		this.value = aValue;
 	}
-	
+
 	public String getName() {
 		return name;
 	}
-	public void setName(String name) {
-		this.name = name;
+
+	public void setName(String aName) {
+		this.name = aName;
 	}
+
 	public String getValue() {
 		return value;
 	}
-	public void setValue(String value) {
-		this.value = value;
+
+	public void setValue(String aValue) {
+		this.value = aValue;
 	}
-	
-	@Override public String toString(){
-		return getName()+"="+getValue();
+
+	@Override
+	public String toString() {
+		return getName() + "=" + getValue();
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -57,13 +76,14 @@ public class SOAttribute {
 		result = prime * result + ((value == null) ? 0 : value.hashCode());
 		return result;
 	}
-	
-	@Override public boolean equals(Object o){
-		return o instanceof SOAttribute ? 
-				BasicComparable.compareString(getName(), ((SOAttribute)o).getName()) == 0 &&
-				BasicComparable.compareString(getValue(), ((SOAttribute)o).getValue()) == 0 
-					:
-				false;
+
+	@Override
+	public boolean equals(Object o) {
+		if (!(o instanceof SOAttribute))
+			return false;
+
+		SOAttribute toCompare = SOAttribute.class.cast(o);
+		return BasicComparable.compareString(getName(), toCompare.getName()) == 0 && BasicComparable.compareString(getValue(), toCompare.getValue()) == 0;
 	}
-	
+
 }

@@ -1,16 +1,18 @@
 package net.anotheria.access.impl;
 
 import net.anotheria.access.AccessService;
+import net.anotheria.anoprise.metafactory.ServiceFactory;
+
 /**
- * The factory for the bouncer service.
- * @author another
- *
+ * Factory for instantiating {@link AccessService} main implementation.
+ * 
+ * @author Leon Rosenberg, Alexandr Bolbat
  */
-public class AccessServiceFactory {
-	
-	private static final AccessService instance = new AccessServiceImpl();
-	
-	public static AccessService createAccessService(){
-		return instance;
+public class AccessServiceFactory implements ServiceFactory<AccessService> {
+
+	@Override
+	public AccessService create() {
+		return new AccessServiceImpl();
 	}
+
 }

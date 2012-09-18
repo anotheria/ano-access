@@ -1,16 +1,20 @@
 package net.anotheria.access.impl;
 
 import java.io.Serializable;
+
 /**
- * Constaint is a guarding condition which can be applied to a role or permissions. Constaints must be met, otherwise the target to which the constaint has been applied should be considered
- * invalid.
- * @author another
- *
+ * Constraint is a guarding condition which can be applied to a role or permission. <br>
+ * Constraint must be met, otherwise the target to which the constraint has been applied should be considered invalid.
+ * 
+ * @author Leon Rosenberg
  */
 public interface Constraint extends Serializable {
+
 	/**
-	 * Returns true if the constraint is met. The permission is valid only if all constraints are met.
-	 * @return
+	 * Returns <code>true</code> if the constraint is met.
+	 * 
+	 * @return <code>true</code> if the constraint is met or <code>false</code>
 	 */
 	public boolean isMet();
+
 }

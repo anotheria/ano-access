@@ -1,21 +1,21 @@
-package net.anotheria.access;
+package net.anotheria.access.storage;
 
 /**
- * The base class for all bouncer service exceptions.
+ * {@link SecurityBoxStorageService} main exception.
  * 
  * @author Leon Rosenberg, Alexandr Bolbat
  */
-public class AccessServiceException extends Exception {
+public class SecurityBoxStorageServiceException extends Exception {
 
 	/**
 	 * Basic serialVersionUID variable.
 	 */
-	private static final long serialVersionUID = -7681219295175216002L;
+	private static final long serialVersionUID = 3483900384459754204L;
 
 	/**
 	 * Default constructor.
 	 */
-	public AccessServiceException() {
+	public SecurityBoxStorageServiceException() {
 	}
 
 	/**
@@ -24,7 +24,7 @@ public class AccessServiceException extends Exception {
 	 * @param message
 	 *            - exception message
 	 */
-	public AccessServiceException(final String message) {
+	public SecurityBoxStorageServiceException(final String message) {
 		super(message);
 	}
 
@@ -34,7 +34,7 @@ public class AccessServiceException extends Exception {
 	 * @param cause
 	 *            - exception cause
 	 */
-	public AccessServiceException(final Throwable cause) {
+	public SecurityBoxStorageServiceException(final Throwable cause) {
 		super(cause);
 	}
 
@@ -46,7 +46,7 @@ public class AccessServiceException extends Exception {
 	 * @param cause
 	 *            - exception cause
 	 */
-	public AccessServiceException(final String message, final Throwable cause) {
+	public SecurityBoxStorageServiceException(final String message, final Throwable cause) {
 		super(message, cause);
 	}
 

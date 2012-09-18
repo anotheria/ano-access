@@ -3,113 +3,148 @@ package net.anotheria.access;
 import java.util.List;
 
 import net.anotheria.access.impl.PermissionCollection;
+import net.anotheria.anoprise.metafactory.Service;
 
 /**
- * Interface for the bouncer service which controls access to different parts of the application. 
+ * Interface for the bouncer service which controls access to different parts of the application. <br>
  * Please note that through all the bouncer code the terms "object" and "subject" have been used wrongfully and should be swapped.
- * @author another
- *
+ * 
+ * @author Leon Rosenberg, Alexandr Bolbat
  */
-public interface AccessService {
+public interface AccessService extends Service {
+
 	/**
-	 * Returns true if the given action is allowed to be executed by given security object on given security subject. 
-	 * @param action the action to execute.
+	 * Returns true if the given action is allowed to be executed by given security object on given security subject.
+	 * 
+	 * @param action
+	 *            - the action to execute
 	 * @param object
+	 *            - security object
 	 * @param subject
-	 * @return
+	 *            - security subject
+	 * @return {@link AccessServiceReply}
 	 * @throws AccessServiceException
 	 */
 	AccessServiceReply isAllowed(String action, SecurityObject object, SecurityObject subject) throws AccessServiceException;
+
 	/**
-	 * Same as isAllowed with the difference that it is called AFTER the action has been taken to notify bouncer to update the corresponding roles. The bouncer can still 
-	 * deny the execution by throwing an exception, however it must be ensured by the application that the action will be canceled.
+	 * Same as isAllowed with the difference that it is called AFTER the action has been taken to notify bouncer to update the corresponding roles. <br>
+	 * The bouncer can still deny the execution by throwing an exception, however it must be ensured by the application that the action will be canceled.
+	 * 
 	 * @param action
+	 *            - the action to execute
 	 * @param object
+	 *            - security object
 	 * @param subject
+	 *            - security subject
 	 * @param basedUponReply
+	 *            - {@link AccessServiceReply}
 	 * @throws AccessServiceException
 	 */
-	void notifyPassed(String action, SecurityObject object, SecurityObject subject, AccessServiceReply basedUponReply) throws   AccessServiceException;
+	void notifyPassed(String action, SecurityObject object, SecurityObject subject, AccessServiceReply basedUponReply) throws AccessServiceException;
 
 	/**
-	 * Grants a role to the object.
+	 * Grants a {@link Role} to the {@link SecurityObject}.
+	 * 
 	 * @param object
+	 *            - security object
 	 * @param roleName
+	 *            - {@link Role} name
 	 * @throws AccessServiceException
 	 */
-	void grantRole(SecurityObject object, String roleName)  throws AccessServiceException;
-	
+	void grantRole(SecurityObject object, String roleName) throws AccessServiceException;
+
 	/**
-	 * Revokes the role from the object.
+	 * Revokes the {@link Role} from the {@link SecurityObject}.
+	 * 
 	 * @param object
+	 *            - security object
 	 * @param roleName
+	 *            - {@link Role} name
 	 * @throws AccessServiceException
 	 */
-	void revokeRole(SecurityObject object, String roleName)  throws AccessServiceException;
+	void revokeRole(SecurityObject object, String roleName) throws AccessServiceException;
 
 	/**
-	 * Returns all known roles.
-	 * @return
+	 * Returns all known roles as {@link List} of {@link RoleInfo}.
+	 * 
+	 * @return {@link List} of {@link RoleInfo}
 	 * @throws AccessServiceException
 	 */
-	List<RoleInfo> getRoleInfos()  throws AccessServiceException;
+	List<RoleInfo> getRoleInfos() throws AccessServiceException;
 
 	/**
-	 * Returns RoleInfos for a given object (user).
+	 * Returns {@link List} of {@link RoleInfo} for a given {@link SecurityObject}.
+	 * 
 	 * @param object
-	 * @return
+	 *            - security object
+	 * @return {@link List} of {@link RoleInfo}
 	 */
 	List<RoleInfo> getRoleInfos(SecurityObject object) throws AccessServiceException;
-	
+
 	/**
 	 * Returns all roles for all objects.
-	 * @return
+	 * 
+	 * @return {@link List} of {@link Role}
 	 * @throws AccessServiceException
 	 */
 	List<Role> getRoles() throws AccessServiceException;
-	
+
 	/**
-	 * Get role in storage by role name.
-	 * @param roleName - role to get
-	 * @return
+	 * Get {@link Role} by name.
+	 * 
+	 * @param roleName
+	 *            - {@link Role} name
+	 * @return {@link Role}
 	 * @throws AccessServiceException
 	 */
-	Role getRoleByName(String roleName) throws AccessServiceException;
-	
+	Role getRole(String roleName) throws AccessServiceException;
+
 	/**
-	 * Adds Configured Role to role storage.
-	 * @param toAdd
+	 * Adds configured {@link Role}.
+	 * 
+	 * @param role
+	 *            - {@link Role} to add
 	 * @throws AccessServiceException
 	 */
-	void addRole(Role toAdd) throws AccessServiceException;
-	
+	void addRole(Role role) throws AccessServiceException;
+
 	/**
 	 * Removes given role from storage.
-	 * @param toDelete
-	 * @return
+	 * 
+	 * @param role
+	 *            - {@link Role} to remove
+	 * @return <code>true</code> if removed or <code>false</code>
 	 * @throws AccessServiceException
 	 */
-	boolean deleteRole(Role toDelete) throws AccessServiceException;
-	
+	boolean deleteRole(Role role) throws AccessServiceException;
+
 	/**
-	 * Adds configured permission collection to storage.
+	 * Adds configured {@link PermissionCollection}.
+	 * 
 	 * @param collection
+	 *            - {@link PermissionCollection} to add
 	 * @throws AccessServiceException
 	 */
 	void addPermissionCollection(PermissionCollection collection) throws AccessServiceException;
-	
+
 	/**
-	 * Returns PermissionCollection by it's name.
+	 * Returns {@link PermissionCollection} by name.
+	 * 
 	 * @param collectionName
-	 * @return
+	 *            - {@link PermissionCollection} name
+	 * @return {@link PermissionCollection}
 	 * @throws RuntimeException
 	 */
-	PermissionCollection getPermissionCollection(String collectionName) throws RuntimeException;	
-	
+	PermissionCollection getPermissionCollection(String collectionName) throws RuntimeException;
+
 	/**
-	 * Removes security object from storage. 
+	 * Removes {@link SecurityObject}.
+	 * 
 	 * @param object
+	 *            - {@link SecurityObject} to remove
 	 * @throws AccessServiceException
 	 */
-	void deleteSecurityObject(SecurityObject object)  throws AccessServiceException;
+	void deleteSecurityObject(SecurityObject object) throws AccessServiceException;
+
 }
