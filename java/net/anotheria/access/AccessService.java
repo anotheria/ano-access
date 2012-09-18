@@ -69,9 +69,8 @@ public interface AccessService extends Service {
 	 * Returns all known roles as {@link List} of {@link RoleInfo}.
 	 * 
 	 * @return {@link List} of {@link RoleInfo}
-	 * @throws AccessServiceException
 	 */
-	List<RoleInfo> getRoleInfos() throws AccessServiceException;
+	List<RoleInfo> getRoleInfos();
 
 	/**
 	 * Returns {@link List} of {@link RoleInfo} for a given {@link SecurityObject}.
@@ -80,15 +79,14 @@ public interface AccessService extends Service {
 	 *            - security object
 	 * @return {@link List} of {@link RoleInfo}
 	 */
-	List<RoleInfo> getRoleInfos(SecurityObject object) throws AccessServiceException;
+	List<RoleInfo> getRoleInfos(SecurityObject object);
 
 	/**
 	 * Returns all roles for all objects.
 	 * 
 	 * @return {@link List} of {@link Role}
-	 * @throws AccessServiceException
 	 */
-	List<Role> getRoles() throws AccessServiceException;
+	List<Role> getRoles();
 
 	/**
 	 * Get {@link Role} by name.
@@ -96,18 +94,16 @@ public interface AccessService extends Service {
 	 * @param roleName
 	 *            - {@link Role} name
 	 * @return {@link Role}
-	 * @throws AccessServiceException
 	 */
-	Role getRole(String roleName) throws AccessServiceException;
+	Role getRole(String roleName);
 
 	/**
 	 * Adds configured {@link Role}.
 	 * 
 	 * @param role
 	 *            - {@link Role} to add
-	 * @throws AccessServiceException
 	 */
-	void addRole(Role role) throws AccessServiceException;
+	void addRole(Role role);
 
 	/**
 	 * Removes given role from storage.
@@ -115,18 +111,16 @@ public interface AccessService extends Service {
 	 * @param role
 	 *            - {@link Role} to remove
 	 * @return <code>true</code> if removed or <code>false</code>
-	 * @throws AccessServiceException
 	 */
-	boolean deleteRole(Role role) throws AccessServiceException;
+	boolean deleteRole(Role role);
 
 	/**
 	 * Adds configured {@link PermissionCollection}.
 	 * 
 	 * @param collection
 	 *            - {@link PermissionCollection} to add
-	 * @throws AccessServiceException
 	 */
-	void addPermissionCollection(PermissionCollection collection) throws AccessServiceException;
+	void addPermissionCollection(PermissionCollection collection);
 
 	/**
 	 * Returns {@link PermissionCollection} by name.
@@ -134,9 +128,8 @@ public interface AccessService extends Service {
 	 * @param collectionName
 	 *            - {@link PermissionCollection} name
 	 * @return {@link PermissionCollection}
-	 * @throws RuntimeException
 	 */
-	PermissionCollection getPermissionCollection(String collectionName) throws RuntimeException;
+	PermissionCollection getPermissionCollection(String collectionName);
 
 	/**
 	 * Removes {@link SecurityObject}.

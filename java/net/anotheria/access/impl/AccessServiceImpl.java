@@ -46,7 +46,7 @@ public class AccessServiceImpl implements AccessService {
 	/**
 	 * Empty roles information list.
 	 */
-	private static List<RoleInfo> EMPTY_LIST = new ArrayList<RoleInfo>(0);
+	private static final List<RoleInfo> EMPTY_LIST = new ArrayList<RoleInfo>(0);
 
 	/**
 	 * Default constructor.
@@ -155,12 +155,12 @@ public class AccessServiceImpl implements AccessService {
 	}
 
 	@Override
-	public List<RoleInfo> getRoleInfos() throws AccessServiceException {
+	public List<RoleInfo> getRoleInfos() {
 		return MetaInfoStorage.INSTANCE.getRoleInfos();
 	}
 
 	@Override
-	public List<RoleInfo> getRoleInfos(final SecurityObject object) throws AccessServiceException {
+	public List<RoleInfo> getRoleInfos(final SecurityObject object) {
 		SecurityBox box = loadBox(object);
 		List<String> roleNames = box.getOwnedRoles();
 		if (roleNames == null || roleNames.size() == 0)
@@ -170,32 +170,32 @@ public class AccessServiceImpl implements AccessService {
 	}
 
 	@Override
-	public List<Role> getRoles() throws AccessServiceException {
+	public List<Role> getRoles() {
 		return MetaInfoStorage.INSTANCE.getRoles();
 	}
 
 	@Override
-	public Role getRole(String roleName) throws AccessServiceException {
+	public Role getRole(String roleName) {
 		return MetaInfoStorage.INSTANCE.getRole(roleName);
 	}
 
 	@Override
-	public void addRole(Role role) throws AccessServiceException {
+	public void addRole(Role role) {
 		MetaInfoStorage.INSTANCE.addRole(role);
 	}
 
 	@Override
-	public boolean deleteRole(final Role role) throws AccessServiceException {
+	public boolean deleteRole(final Role role) {
 		return MetaInfoStorage.INSTANCE.deleteRole(role);
 	}
 
 	@Override
-	public void addPermissionCollection(PermissionCollection collection) throws AccessServiceException {
+	public void addPermissionCollection(PermissionCollection collection) {
 		MetaInfoStorage.INSTANCE.addPermissionCollection(collection);
 	}
 
 	@Override
-	public PermissionCollection getPermissionCollection(String collectionName) throws RuntimeException {
+	public PermissionCollection getPermissionCollection(String collectionName) {
 		return MetaInfoStorage.INSTANCE.getPermissionCollection(collectionName);
 	}
 

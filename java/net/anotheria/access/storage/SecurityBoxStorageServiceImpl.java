@@ -60,7 +60,7 @@ public class SecurityBoxStorageServiceImpl implements SecurityBoxStorageService 
 	}
 
 	@Override
-	public SecurityBox loadSecurityBox(String boxOwnerId) throws SecurityBoxStorageServiceException, SecurityBoxStorageServiceBoxNotFoundException {
+	public SecurityBox loadSecurityBox(final String boxOwnerId) throws SecurityBoxStorageServiceException {
 		try {
 			return dualCrudService.read(boxOwnerId);
 		} catch (ItemNotFoundException notFound) {
@@ -72,7 +72,7 @@ public class SecurityBoxStorageServiceImpl implements SecurityBoxStorageService 
 	}
 
 	@Override
-	public void saveSecurityBox(SecurityBox box) throws SecurityBoxStorageServiceException {
+	public void saveSecurityBox(final SecurityBox box) throws SecurityBoxStorageServiceException {
 		try {
 			dualCrudService.save(box);
 		} catch (CrudServiceException e) {
@@ -82,7 +82,7 @@ public class SecurityBoxStorageServiceImpl implements SecurityBoxStorageService 
 	}
 
 	@Override
-	public void deleteSecurityBox(SecurityBox box) throws SecurityBoxStorageServiceException {
+	public void deleteSecurityBox(final SecurityBox box) throws SecurityBoxStorageServiceException {
 		try {
 			dualCrudService.delete(box);
 		} catch (CrudServiceException e) {
