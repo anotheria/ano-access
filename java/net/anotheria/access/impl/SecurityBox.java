@@ -1,6 +1,5 @@
 package net.anotheria.access.impl;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,7 +13,7 @@ import net.anotheria.anoprise.dualcrud.CrudSaveable;
  * 
  * @author Leon Rosenberg, Alexandr Bolbat
  */
-public class SecurityBox implements Serializable, CrudSaveable {
+public class SecurityBox implements CrudSaveable {
 
 	/**
 	 * Basic serialVersionUID variable.
