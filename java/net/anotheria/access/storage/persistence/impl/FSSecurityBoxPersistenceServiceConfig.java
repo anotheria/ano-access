@@ -130,13 +130,16 @@ public final class FSSecurityBoxPersistenceServiceConfig {
 	 */
 	public static String calculateDirPath(final String userId) {
 		String fragments[] = getFragmentation(userId, getInstance().getFragmentationDepth(), getInstance().getFragmentationLength());
-		String path = getInstance().getStoragePath();
+		StringBuilder sb = new StringBuilder();
+		sb.append(getInstance().getStoragePath());
+
 		for (int i = 0; i < fragments.length - 1; i++) {
-			path += fragments[i];
+			sb.append(fragments[i]);
 			if (i < fragments.length - 2)
-				path += File.separator;
+				sb.append(File.separator);
 		}
-		return path;
+
+		return sb.toString();
 	}
 
 	/**

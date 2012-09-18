@@ -121,7 +121,10 @@ public class FSSecurityBoxPersistenceServiceImpl implements SecurityBoxPersisten
 	 */
 	protected File getFile(String userId) {
 		// preparing storage directory
-		new File(FSSecurityBoxPersistenceServiceConfig.calculateDirPath(userId)).mkdirs();
+		File file = new File(FSSecurityBoxPersistenceServiceConfig.calculateDirPath(userId));
+		if (!file.mkdirs())
+			LOGGER.debug("Directory[" + FSSecurityBoxPersistenceServiceConfig.calculateDirPath(userId) + "] not created.");
+
 		// preparing file
 		return new File(FSSecurityBoxPersistenceServiceConfig.calculateFilePath(userId));
 	}

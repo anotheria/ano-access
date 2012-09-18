@@ -48,21 +48,13 @@ public class StaticRole extends AbstractRole {
 		if (collection != null)
 			return collection;
 
-		return resolveCollection();
-	}
+		synchronized (this) {
+			if (collection != null)
+				return collection;
 
-	/**
-	 * Resolve {@link PermissionCollection} from {@link MetaInfoStorage}.
-	 * 
-	 * @return {@link PermissionCollection}
-	 * @throws AccessServiceException
-	 */
-	private synchronized PermissionCollection resolveCollection() throws AccessServiceException {
-		if (collection != null)
+			collection = MetaInfoStorage.INSTANCE.getPermissionCollection(getPermissionSetId());
 			return collection;
-
-		collection = MetaInfoStorage.INSTANCE.getPermissionCollection(getPermissionSetId());
-		return collection;
+		}
 	}
 
 	/**

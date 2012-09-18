@@ -112,11 +112,9 @@ public class AccessServiceImpl implements AccessService {
 
 		for (Role r : roles) {
 			out("Checking with role: " + r);
-			if (r.getName().equals(basedUponReply.getDecidedByRole())) {
-				if (r instanceof DynamicRole) {
-					((DynamicRole) r).firePermissionUpdate(basedUponReply.getDecidedByPermission());
-					break;
-				}
+			if (r.getName().equals(basedUponReply.getDecidedByRole()) && r instanceof DynamicRole) {
+				((DynamicRole) r).firePermissionUpdate(basedUponReply.getDecidedByPermission());
+				break;
 			}
 		}
 
