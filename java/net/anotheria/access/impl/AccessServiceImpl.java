@@ -14,6 +14,7 @@ import net.anotheria.access.SecurityObject;
 import net.anotheria.access.storage.SecurityBoxStorageService;
 import net.anotheria.access.storage.SecurityBoxStorageServiceBoxNotFoundException;
 import net.anotheria.access.storage.SecurityBoxStorageServiceException;
+import net.anotheria.access.storage.SecurityBoxStorageServiceFactory;
 import net.anotheria.access.util.CacheUtil;
 import net.anotheria.anoprise.cache.Cache;
 import net.anotheria.anoprise.metafactory.MetaFactory;
@@ -36,7 +37,7 @@ public class AccessServiceImpl implements AccessService {
 	/**
 	 * {@link SecurityBoxStorageService} instance.
 	 */
-	private final SecurityBoxStorageService storage;
+	private SecurityBoxStorageService storage;
 
 	/**
 	 * Cache of the security boxes.
@@ -55,7 +56,8 @@ public class AccessServiceImpl implements AccessService {
 		try {
 			storage = MetaFactory.get(SecurityBoxStorageService.class);
 		} catch (MetaFactoryException e) {
-			throw new RuntimeException("AccessServiceImpl() initialization fail.", e);
+			LOGGER.warn("AccessServiceImpl() SecurityBoxStorageService initialization from MetaFactory fail. Configuring with default implementation.");
+			storage = new SecurityBoxStorageServiceFactory().create();
 		}
 		cache = CacheUtil.createConfigurableSoftReferenceCache("ano-access-cache");
 	}

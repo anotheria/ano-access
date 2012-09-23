@@ -10,10 +10,6 @@ import net.anotheria.access.impl.AccessServiceFactory;
 import net.anotheria.access.impl.PermissionCollection;
 import net.anotheria.access.impl.PermissionImpl;
 import net.anotheria.access.impl.StaticRole;
-import net.anotheria.access.storage.SecurityBoxStorageService;
-import net.anotheria.access.storage.SecurityBoxStorageServiceFactory;
-import net.anotheria.access.storage.persistence.SecurityBoxPersistenceService;
-import net.anotheria.access.storage.persistence.impl.FSSecurityBoxPersistenceServiceFactory;
 import net.anotheria.anoprise.metafactory.Extension;
 import net.anotheria.anoprise.metafactory.MetaFactory;
 import net.anotheria.anoprise.metafactory.MetaFactoryException;
@@ -39,11 +35,6 @@ public class TestConstraintDrivenRoles {
 	@BeforeClass
 	public static void init() throws AccessServiceException, MetaFactoryException {
 		// Configuring MetaFactory
-		MetaFactory.addFactoryClass(SecurityBoxPersistenceService.class, Extension.CRUD_LEFT, FSSecurityBoxPersistenceServiceFactory.class);
-
-		MetaFactory.addAlias(SecurityBoxStorageService.class, Extension.LOCAL, Extension.NONE);
-		MetaFactory.addFactoryClass(SecurityBoxStorageService.class, Extension.LOCAL, SecurityBoxStorageServiceFactory.class);
-
 		MetaFactory.addFactoryClass(AccessService.class, Extension.NONE, AccessServiceFactory.class);
 
 		service = MetaFactory.get(AccessService.class);

@@ -1,5 +1,6 @@
 package net.anotheria.access.storage.persistence;
 
+import net.anotheria.access.impl.SecurityBox;
 import net.anotheria.anoprise.dualcrud.CrudService;
 
 /**
@@ -7,6 +8,6 @@ import net.anotheria.anoprise.dualcrud.CrudService;
  * 
  * @author Alexandr Bolbat
  */
-public interface SecurityBoxPersistenceService extends CrudService<net.anotheria.access.impl.SecurityBox> {
+public interface SecurityBoxPersistenceService extends CrudService<SecurityBox> {
 
 }
