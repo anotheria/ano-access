@@ -215,6 +215,19 @@ public class AccessServiceImpl implements AccessService {
 
 	}
 
+	@Override
+	public void reset() {
+		synchronized (this) {
+			MetaInfoStorage.INSTANCE.reset();
+			cache.clear();
+		}
+	}
+
+	@Override
+	public void reset(String ownerId) {
+		cache.remove(ownerId);
+	}
+
 	/**
 	 * Load {@link SecurityBox}.
 	 * 

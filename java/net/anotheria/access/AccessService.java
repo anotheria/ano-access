@@ -140,4 +140,17 @@ public interface AccessService extends Service {
 	 */
 	void deleteSecurityObject(SecurityObject object) throws AccessServiceException;
 
+	/**
+	 * Reset runtime configuration and caches. This is workaround for hot and easy re-configuration.
+	 */
+	void reset();
+
+	/**
+	 * Reset runtime configuration for a given owner, it will be reloaded from persistence on next call. This is workaround for hot and easy re-configuration.
+	 * 
+	 * @param ownerId
+	 *            - owner id
+	 */
+	void reset(String ownerId);
+
 }

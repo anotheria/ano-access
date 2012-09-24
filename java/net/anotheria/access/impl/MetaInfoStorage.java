@@ -148,7 +148,7 @@ public enum MetaInfoStorage {
 	 * 
 	 * @param collectionName
 	 *            - collection name
-	 * @return <code>true</code> if has ot <code>false</code>
+	 * @return <code>true</code> if has or <code>false</code>
 	 */
 	public boolean hasPermissionCollection(final String collectionName) {
 		return collections.containsKey(collectionName);
@@ -166,6 +166,14 @@ public enum MetaInfoStorage {
 		result.setRoleName(role.getName());
 		result.setRoleType((role instanceof StaticRole) ? "StaticRole" : "DynamicRole");
 		return result;
+	}
+
+	/**
+	 * Reset internal configuration and caches.
+	 */
+	public synchronized void reset() {
+		roles.clear();
+		collections.clear();
 	}
 
 }
