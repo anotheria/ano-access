@@ -1,13 +1,13 @@
 package net.anotheria.access;
 
-import java.util.List;
-
 import net.anotheria.access.impl.PermissionCollection;
 import net.anotheria.anoprise.metafactory.Service;
 
+import java.util.List;
+
 /**
  * Interface for the bouncer service which controls access to different parts of the application. <br>
- * Please note that through all the bouncer code the terms "object" and "subject" have been used wrongfully and should be swapped.
+ * Please note that through all the ano-access code the terms "object" and "subject" have been used wrongfully and should be swapped.
  * 
  * @author Leon Rosenberg, Alexandr Bolbat
  */
