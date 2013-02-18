@@ -3,11 +3,10 @@ package net.anotheria.access.util;
 import net.anotheria.anoprise.cache.Cache;
 import net.anotheria.anoprise.cache.CacheProducerWrapper;
 import net.anotheria.anoprise.cache.Caches;
-import net.java.dev.moskito.core.logging.DefaultStatsLogger;
-import net.java.dev.moskito.core.logging.IntervalStatsLogger;
-import net.java.dev.moskito.core.logging.Log4JOutput;
-import net.java.dev.moskito.core.stats.DefaultIntervals;
-
+import net.anotheria.moskito.core.logging.DefaultStatsLogger;
+import net.anotheria.moskito.core.logging.IntervalStatsLogger;
+import net.anotheria.moskito.core.logging.Log4JOutput;
+import net.anotheria.moskito.core.stats.DefaultIntervals;
 import org.apache.log4j.Logger;
 
 /**
