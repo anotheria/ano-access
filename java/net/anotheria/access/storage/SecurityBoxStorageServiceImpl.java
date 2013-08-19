@@ -11,8 +11,9 @@ import net.anotheria.anoprise.dualcrud.ItemNotFoundException;
 import net.anotheria.anoprise.metafactory.Extension;
 import net.anotheria.anoprise.metafactory.MetaFactory;
 import net.anotheria.anoprise.metafactory.MetaFactoryException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import org.apache.log4j.Logger;
 
 /**
  * {@link SecurityBoxStorageService} implementation.
@@ -24,7 +25,7 @@ public class SecurityBoxStorageServiceImpl implements SecurityBoxStorageService 
 	/**
 	 * {@link Logger} instance.
 	 */
-	private static final Logger LOGGER = Logger.getLogger(SecurityBoxStorageServiceImpl.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(SecurityBoxStorageServiceImpl.class);
 
 	/**
 	 * {@link DualCrudConfig} instance.

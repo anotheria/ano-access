@@ -1,5 +1,14 @@
 package net.anotheria.access.storage.persistence.impl;
 
+import net.anotheria.access.impl.SecurityBox;
+import net.anotheria.access.storage.persistence.SecurityBoxPersistenceService;
+import net.anotheria.anoprise.dualcrud.CrudServiceException;
+import net.anotheria.anoprise.dualcrud.ItemNotFoundException;
+import net.anotheria.anoprise.dualcrud.Query;
+import net.anotheria.util.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -8,14 +17,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.List;
 
-import net.anotheria.access.impl.SecurityBox;
-import net.anotheria.access.storage.persistence.SecurityBoxPersistenceService;
-import net.anotheria.anoprise.dualcrud.CrudServiceException;
-import net.anotheria.anoprise.dualcrud.ItemNotFoundException;
-import net.anotheria.anoprise.dualcrud.Query;
-import net.anotheria.util.IOUtils;
-
-import org.apache.log4j.Logger;
 
 /**
  * File system implementation of {@link SecurityBoxPersistenceService}.
@@ -27,7 +28,7 @@ public class FSSecurityBoxPersistenceServiceImpl implements SecurityBoxPersisten
 	/**
 	 * {@link Logger} instance.
 	 */
-	private static final Logger LOGGER = Logger.getLogger(FSSecurityBoxPersistenceServiceImpl.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(FSSecurityBoxPersistenceServiceImpl.class);
 
 	@Override
 	public SecurityBox create(SecurityBox t) throws CrudServiceException {

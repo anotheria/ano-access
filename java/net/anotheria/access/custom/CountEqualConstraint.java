@@ -3,8 +3,8 @@ package net.anotheria.access.custom;
 import net.anotheria.access.SecurityObject;
 import net.anotheria.access.constraints.CustomConstraint;
 import net.anotheria.access.impl.AccessContext;
-
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -14,7 +14,7 @@ import org.apache.log4j.Logger;
  */
 public class CountEqualConstraint implements CustomConstraint {
 	
-	private static Logger log = Logger.getLogger(CountEqualConstraint.class);
+	private static Logger log = LoggerFactory.getLogger(CountEqualConstraint.class);
 	
 	private int count = Integer.MAX_VALUE;
 	

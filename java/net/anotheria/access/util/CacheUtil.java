@@ -8,6 +8,7 @@ import net.anotheria.moskito.core.logging.IntervalStatsLogger;
 import net.anotheria.moskito.core.logging.Log4JOutput;
 import net.anotheria.moskito.core.stats.DefaultIntervals;
 import org.apache.log4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Cache utility for creating cache with some setting's, moskito and logger's.
@@ -19,7 +20,7 @@ public final class CacheUtil {
 	/**
 	 * Logger.
 	 */
-	private static final Logger LOGGER = Logger.getLogger(CacheUtil.class.getName());
+	private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CacheUtil.class.getName());
 
 	/**
 	 * Cache start size constant.

@@ -3,8 +3,9 @@ package net.anotheria.access.custom;
 import net.anotheria.access.SecurityObject;
 import net.anotheria.access.constraints.CustomConstraint;
 import net.anotheria.access.impl.AccessContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import org.apache.log4j.Logger;
 
 /**
  * Is met if the value of the submitted count attribute is greater than configured parameter value.
@@ -13,7 +14,7 @@ import org.apache.log4j.Logger;
  */
 public class CountGreaterThanConstraint implements CustomConstraint {
 	
-	private static Logger log = Logger.getLogger(CountGreaterThanConstraint.class);
+	private static Logger log = LoggerFactory.getLogger(CountGreaterThanConstraint.class);
 	
 	private int count = Integer.MAX_VALUE;
 	

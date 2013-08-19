@@ -1,11 +1,12 @@
 package net.anotheria.access.storage.persistence.impl;
 
-import java.io.File;
-
-import org.apache.log4j.Logger;
 import org.configureme.ConfigurationManager;
 import org.configureme.annotations.Configure;
 import org.configureme.annotations.ConfigureMe;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.File;
 
 /**
  * {@link FSSecurityBoxPersistenceServiceImpl} configuration.
@@ -18,7 +19,7 @@ public final class FSSecurityBoxPersistenceServiceConfig {
 	/**
 	 * {@link Logger} instance.
 	 */
-	private static final Logger LOGGER = Logger.getLogger(FSSecurityBoxPersistenceServiceConfig.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(FSSecurityBoxPersistenceServiceConfig.class);
 
 	/**
 	 * {@link FSSecurityBoxPersistenceServiceImpl} configuration instance.

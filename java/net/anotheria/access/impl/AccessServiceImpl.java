@@ -1,9 +1,5 @@
 package net.anotheria.access.impl;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import net.anotheria.access.AccessService;
 import net.anotheria.access.AccessServiceException;
 import net.anotheria.access.AccessServiceReply;
@@ -19,8 +15,13 @@ import net.anotheria.access.util.CacheUtil;
 import net.anotheria.anoprise.cache.Cache;
 import net.anotheria.anoprise.metafactory.MetaFactory;
 import net.anotheria.anoprise.metafactory.MetaFactoryException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import org.apache.log4j.Logger;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 
 /**
  * The implementation {@link AccessService}.
@@ -32,7 +33,7 @@ public class AccessServiceImpl implements AccessService {
 	/**
 	 * {@link Logger} instance.
 	 */
-	private static final Logger LOGGER = Logger.getLogger(AccessServiceImpl.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(AccessServiceImpl.class);
 
 	/**
 	 * {@link SecurityBoxStorageService} instance.
@@ -296,7 +297,7 @@ public class AccessServiceImpl implements AccessService {
 	 */
 	private static void out(final Object o) {
 		if (LOGGER.isDebugEnabled())
-			LOGGER.debug(o);
+			LOGGER.debug(String.valueOf(o));
 	}
 
 }

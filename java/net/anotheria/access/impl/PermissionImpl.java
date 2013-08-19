@@ -1,12 +1,13 @@
 package net.anotheria.access.impl;
 
-import java.util.List;
-
 import net.anotheria.access.Permission;
 import net.anotheria.access.PermissionReply;
 import net.anotheria.access.constraints.FireableConstraint;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import org.apache.log4j.Logger;
+import java.util.List;
+
 
 /**
  * Implementation of a permission.
@@ -23,7 +24,7 @@ public class PermissionImpl extends Constraintable implements Permission {
 	/**
 	 * {@link Logger} instance.
 	 */
-	private static final Logger LOGGER = Logger.getLogger(PermissionImpl.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(PermissionImpl.class);
 
 	/**
 	 * A permission can be allowing or denying. If allow=true the permission is allowing, otherwise its denying.

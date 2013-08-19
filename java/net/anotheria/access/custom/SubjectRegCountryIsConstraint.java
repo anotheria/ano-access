@@ -4,13 +4,13 @@ import net.anotheria.access.Ontology;
 import net.anotheria.access.SecurityObject;
 import net.anotheria.access.constraints.CustomConstraint;
 import net.anotheria.access.impl.AccessContext;
-
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class SubjectRegCountryIsConstraint implements CustomConstraint {
 	
-	private static Logger log = Logger.getLogger(SubjectRegCountryIsConstraint.class);
+	private static Logger log = LoggerFactory.getLogger(SubjectRegCountryIsConstraint.class);
 	
 	private String country; 
 	
