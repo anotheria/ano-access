@@ -77,7 +77,7 @@ public final class FSSecurityBoxPersistenceServiceConfig {
 		try {
 			ConfigurationManager.INSTANCE.configure(this);
 		} catch (IllegalArgumentException e) {
-			LOGGER.error("FSSecurityBoxPersistenceServiceConfig() initializtion fail. Relaying on defaults[" + this.toString() + "].", e);
+			LOGGER.error("FSSecurityBoxPersistenceServiceConfig() initializtion fail. Relaying on defaults[" + this + "].", e);
 		}
 	}
 
@@ -130,9 +130,9 @@ public final class FSSecurityBoxPersistenceServiceConfig {
 	 * @return {@link String}
 	 */
 	public static String calculateDirPath(final String userId) {
-		String fragments[] = getFragmentation(userId, getInstance().getFragmentationDepth(), getInstance().getFragmentationLength());
+        String fragments[] = getFragmentation(userId, getInstance().fragmentationDepth, getInstance().fragmentationLength);
 		StringBuilder sb = new StringBuilder();
-		sb.append(getInstance().getStoragePath());
+        sb.append(getInstance().storagePath);
 
 		for (int i = 0; i < fragments.length - 1; i++) {
 			sb.append(fragments[i]);
@@ -151,7 +151,7 @@ public final class FSSecurityBoxPersistenceServiceConfig {
 	 * @return {@link String}
 	 */
 	public static String calculateFilePath(final String userId) {
-		String filePath = calculateDirPath(userId) + File.separator + userId + getInstance().getExtension();
+        String filePath = calculateDirPath(userId) + File.separator + userId + getInstance().extension;
 
 		if (LOGGER.isDebugEnabled())
 			LOGGER.debug("Calculated file path for " + userId + " is " + filePath);
@@ -174,7 +174,7 @@ public final class FSSecurityBoxPersistenceServiceConfig {
 		String s = userId;
 		// first ensure our string is long enough.
 		while (s.length() < fragmentationDepth * fragmentLength)
-			s = "0" + s;
+			s = '0' + s;
 
 		int singleLength = fragmentLength;
 		String ret[] = new String[fragmentationDepth];

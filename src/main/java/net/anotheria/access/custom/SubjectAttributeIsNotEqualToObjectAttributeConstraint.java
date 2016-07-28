@@ -13,8 +13,7 @@ public class SubjectAttributeIsNotEqualToObjectAttributeConstraint extends Subje
 	private static final long serialVersionUID = -8921448570038249196L;
 
 	public SubjectAttributeIsNotEqualToObjectAttributeConstraint(){
-		super();
-	}
+    }
 	
 	public SubjectAttributeIsNotEqualToObjectAttributeConstraint(String attributeName){
 		super(attributeName);

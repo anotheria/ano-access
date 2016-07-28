@@ -2,6 +2,7 @@ package net.anotheria.access.impl;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -25,7 +26,7 @@ public abstract class Constraintable implements Serializable {
 	 * Default constructor.
 	 */
 	protected Constraintable() {
-		constraints = new ArrayList<Constraint>();
+		constraints = new ArrayList<>();
 	}
 
 	/**
@@ -52,7 +53,7 @@ public abstract class Constraintable implements Serializable {
 	 * @param aConstraints
 	 *            - constraints to add
 	 */
-	public void addConstraints(List<Constraint> aConstraints) {
+	public void addConstraints(Collection<Constraint> aConstraints) {
 		constraints.addAll(aConstraints);
 	}
 
@@ -93,7 +94,7 @@ public abstract class Constraintable implements Serializable {
 
 	@Override
 	public String toString() {
-		return constraints == null || constraints.size() == 0 ? "" : "Constraint: " + constraints.toString();
+		return constraints == null || constraints.isEmpty() ? "" : "Constraint: " + constraints;
 	}
 
 }

@@ -5,7 +5,7 @@ import net.anotheria.anoprise.cache.CacheProducerWrapper;
 import net.anotheria.anoprise.cache.Caches;
 import net.anotheria.moskito.core.logging.DefaultStatsLogger;
 import net.anotheria.moskito.core.logging.IntervalStatsLogger;
-import net.anotheria.moskito.core.logging.SL4JLogOutput;
+import net.anotheria.moskito.core.logging.SLF4JLogOutput;
 import net.anotheria.moskito.core.stats.DefaultIntervals;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
@@ -61,11 +61,11 @@ public final class CacheUtil {
 		}
 
 		CacheProducerWrapper cacheWrapper = new CacheProducerWrapper(cache, configFile, "cache", "default");
-		new DefaultStatsLogger(cacheWrapper, new SL4JLogOutput(LoggerFactory.getLogger("MoskitoDefault")));
-		new IntervalStatsLogger(cacheWrapper, DefaultIntervals.FIVE_MINUTES, new SL4JLogOutput(LoggerFactory.getLogger("Moskito5m")));
-		new IntervalStatsLogger(cacheWrapper, DefaultIntervals.FIFTEEN_MINUTES, new SL4JLogOutput(LoggerFactory.getLogger("Moskito15m")));
-		new IntervalStatsLogger(cacheWrapper, DefaultIntervals.ONE_HOUR, new SL4JLogOutput(LoggerFactory.getLogger("Moskito1h")));
-		new IntervalStatsLogger(cacheWrapper, DefaultIntervals.ONE_DAY, new SL4JLogOutput(LoggerFactory.getLogger("Moskito1d")));
+		new DefaultStatsLogger(cacheWrapper, new SLF4JLogOutput(LoggerFactory.getLogger("MoskitoDefault")));
+		new IntervalStatsLogger(cacheWrapper, DefaultIntervals.FIVE_MINUTES, new SLF4JLogOutput(LoggerFactory.getLogger("Moskito5m")));
+		new IntervalStatsLogger(cacheWrapper, DefaultIntervals.FIFTEEN_MINUTES, new SLF4JLogOutput(LoggerFactory.getLogger("Moskito15m")));
+		new IntervalStatsLogger(cacheWrapper, DefaultIntervals.ONE_HOUR, new SLF4JLogOutput(LoggerFactory.getLogger("Moskito1h")));
+		new IntervalStatsLogger(cacheWrapper, DefaultIntervals.ONE_DAY, new SLF4JLogOutput(LoggerFactory.getLogger("Moskito1d")));
 
 		return cache;
 	}
@@ -92,11 +92,11 @@ public final class CacheUtil {
 		}
 
 		CacheProducerWrapper cacheWrapper = new CacheProducerWrapper(cache, configFile, "cache", "default");
-		new DefaultStatsLogger(cacheWrapper, new SL4JLogOutput(LoggerFactory.getLogger("MoskitoDefault")));
-		new IntervalStatsLogger(cacheWrapper, DefaultIntervals.FIVE_MINUTES, new SL4JLogOutput(LoggerFactory.getLogger("Moskito5m")));
-		new IntervalStatsLogger(cacheWrapper, DefaultIntervals.FIFTEEN_MINUTES, new SL4JLogOutput(LoggerFactory.getLogger("Moskito15m")));
-		new IntervalStatsLogger(cacheWrapper, DefaultIntervals.ONE_HOUR, new SL4JLogOutput(LoggerFactory.getLogger("Moskito1h")));
-		new IntervalStatsLogger(cacheWrapper, DefaultIntervals.ONE_DAY, new SL4JLogOutput(LoggerFactory.getLogger("Moskito1d")));
+		new DefaultStatsLogger(cacheWrapper, new SLF4JLogOutput(LoggerFactory.getLogger("MoskitoDefault")));
+		new IntervalStatsLogger(cacheWrapper, DefaultIntervals.FIVE_MINUTES, new SLF4JLogOutput(LoggerFactory.getLogger("Moskito5m")));
+		new IntervalStatsLogger(cacheWrapper, DefaultIntervals.FIFTEEN_MINUTES, new SLF4JLogOutput(LoggerFactory.getLogger("Moskito15m")));
+		new IntervalStatsLogger(cacheWrapper, DefaultIntervals.ONE_HOUR, new SLF4JLogOutput(LoggerFactory.getLogger("Moskito1h")));
+		new IntervalStatsLogger(cacheWrapper, DefaultIntervals.ONE_DAY, new SLF4JLogOutput(LoggerFactory.getLogger("Moskito1d")));
 
 		return cache;
 	}

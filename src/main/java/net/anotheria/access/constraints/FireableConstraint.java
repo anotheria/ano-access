@@ -9,5 +9,5 @@ public interface FireableConstraint {
 	/**
 	 * Called to announce that the change happened.
 	 */
-	public void notifyFired();
+    void notifyFired();
 }

@@ -1,8 +1,8 @@
 package net.anotheria.access.constraints;
 
-import java.io.Serializable;
-
 import net.anotheria.util.NumberUtils;
+
+import java.io.Serializable;
 /**
  * Represents an endpoint of a range.
  * @author another
@@ -34,23 +34,23 @@ public class RangeEndpoint implements Serializable{
 	}
 	
 	@Override public String toString(){
-		return timeMills+" ("+(inclusive?"incl":"excl")+")";
+		return timeMills+" ("+(inclusive?"incl":"excl")+ ')';
 	}
 	
 	public String toLeftString(){
-		return "" + (inclusive ? '[' : '(' ) + timeMills;
+		return String.valueOf((inclusive ? '[' : '(')) + timeMills;
 	}
 
 	public String describeLeft(){
-		return "" + (inclusive ? '[' : '(' ) + NumberUtils.makeISO8601TimestampString(timeMills);
+		return (inclusive ? '[' : '(') + NumberUtils.makeISO8601TimestampString(timeMills);
 	}
 
 	public String toRightString(){
-		return "" + timeMills +(inclusive ? ']' : ')' );
+		return String.valueOf(timeMills) + (inclusive ? ']' : ')');
 	}
 	
 	public String describeRight(){
-		return "" + NumberUtils.makeISO8601TimestampString(timeMills) +(inclusive ? ']' : ')' );
+		return NumberUtils.makeISO8601TimestampString(timeMills) + (inclusive ? ']' : ')');
 	}
 
 	/**

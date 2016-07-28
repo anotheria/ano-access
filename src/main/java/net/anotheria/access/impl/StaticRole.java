@@ -33,8 +33,8 @@ public class StaticRole extends AbstractRole {
 	 */
 	public StaticRole(final String name) {
 		super(name);
-		setPermissionSetId(getName());
-	}
+        this.permissionSetId = getName();
+    }
 
 	public String getPermissionSetId() {
 		return permissionSetId;
@@ -52,7 +52,7 @@ public class StaticRole extends AbstractRole {
 			if (collection != null)
 				return collection;
 
-			collection = MetaInfoStorage.INSTANCE.getPermissionCollection(getPermissionSetId());
+            collection = MetaInfoStorage.INSTANCE.getPermissionCollection(permissionSetId);
 			return collection;
 		}
 	}
@@ -78,7 +78,7 @@ public class StaticRole extends AbstractRole {
 
 	@Override
 	public String toString() {
-		return super.toString() + " PSetId: " + getPermissionSetId() + ", PCollection: " + collection;
+        return super.toString() + " PSetId: " + permissionSetId + ", PCollection: " + collection;
 	}
 
 	@Override
@@ -94,7 +94,7 @@ public class StaticRole extends AbstractRole {
 	public boolean equals(Object obj) {
 		if (obj instanceof StaticRole) {
 			StaticRole dest = (StaticRole) obj;
-			if (this.getName().equals(dest.getName()) && this.getPermissionSetId().equals(dest.getPermissionSetId())) { // this line could be broken...
+            if (this.getName().equals(dest.getName()) && permissionSetId.equals(dest.permissionSetId)) { // this line could be broken...
 				return true;
 			}
 		}

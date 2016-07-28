@@ -37,7 +37,7 @@ public class SecurityObject implements Serializable {
 	 */
 	public SecurityObject(final String aId) {
 		this.id = aId;
-		this.attributes = new HashMap<String, SOAttribute>();
+		this.attributes = new HashMap<>();
 	}
 
 	/**
@@ -48,7 +48,7 @@ public class SecurityObject implements Serializable {
 	 * @param aAttributes
 	 *            - {@link List} of {@link SOAttribute}
 	 */
-	public SecurityObject(final String anId, final List<SOAttribute> aAttributes) {
+	public SecurityObject(final String anId, final Collection<SOAttribute> aAttributes) {
 		this(anId);
 		addAttributes(aAttributes);
 	}
@@ -112,6 +112,6 @@ public class SecurityObject implements Serializable {
 
 	@Override
 	public String toString() {
-		return attributes == null || attributes.size() == 0 ? id : "Id: " + id + ", attributes: " + attributes;
+		return attributes == null || attributes.isEmpty() ? id : "Id: " + id + ", attributes: " + attributes;
 	}
 }

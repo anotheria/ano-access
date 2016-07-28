@@ -7,7 +7,7 @@ import net.anotheria.access.SOAttribute;
 import net.anotheria.access.SecurityObject;
 
 import org.junit.Test;
-import static junit.framework.Assert.*;
+import static org.junit.Assert.*;
 
 public class SecurityObjectTest {
 	@Test public void testValue(){

@@ -1,9 +1,9 @@
 package net.anotheria.access.constraints;
 
-import java.io.Serializable;
-
 import net.anotheria.access.impl.AccessContext;
 import net.anotheria.access.impl.Constraint;
+
+import java.io.Serializable;
 
 /**
  * A credit constraint is only met as long as there are remaining credits.
@@ -37,7 +37,7 @@ public class CreditConstraint implements Constraint, Serializable, FireableConst
 	}
 	
 	@Override public String toString(){
-		return "CreditConstraint "+getCredits();
+        return "CreditConstraint "+ credits;
 	}
 
 	@Override public void notifyFired() {

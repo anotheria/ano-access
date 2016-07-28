@@ -2,6 +2,7 @@ package net.anotheria.access.constraints;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 /**
  * A constraint that depends on time ranges.
@@ -16,7 +17,7 @@ public class TimeRangeConstraint extends TimeConstraint implements Serializable{
 	private List<Range> ranges;
 	
 	public TimeRangeConstraint(){
-		ranges = new ArrayList<Range>();
+		ranges = new ArrayList<>();
 	}
 	
 	public TimeRangeConstraint(Range initialRange){
@@ -24,7 +25,7 @@ public class TimeRangeConstraint extends TimeConstraint implements Serializable{
 		ranges.add(initialRange);
 	}
 	
-	public TimeRangeConstraint(List<Range> someRanges){
+	public TimeRangeConstraint(Collection<Range> someRanges){
 		this();
 		ranges.addAll(someRanges);
 	}

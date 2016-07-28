@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
+import java.util.Objects;
 
 
 /**
@@ -86,10 +87,10 @@ public class PermissionImpl extends Constraintable implements Permission {
 	public PermissionReply isAllowed(final String aAction) {
 		out("Checking for " + aAction + " on " + AccessContext.getContext().getObject());
 
-		if (aAction == null || !aAction.equals(action))
+		if (!Objects.equals(aAction, action))
 			return null;
 
-		out("\t" + aAction + " matches my action");
+		out('\t' + aAction + " matches my action");
 
 		if (!constraintsMet())
 			return null;
@@ -126,7 +127,7 @@ public class PermissionImpl extends Constraintable implements Permission {
 
 	@Override
 	public String toString() {
-		return "Action: " + getAction() + ", Allowed: " + isAllow() + ", Priority: " + getPriority();
+		return "Action: " + action + ", Allowed: " + allow + ", Priority: " + priority;
 	}
 
 	@Override

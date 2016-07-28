@@ -36,7 +36,7 @@ public class CountEqualConstraint implements CustomConstraint {
 		try{
 			countToCheck = Integer.parseInt(sCount);
 		}catch(NumberFormatException e){
-			log.error("isMet.parseInt("+sCount+")", e);
+			log.error("isMet.parseInt("+sCount+ ')', e);
 		}
 		
 		return count == countToCheck;

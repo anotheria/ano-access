@@ -48,7 +48,7 @@ public class AccessServiceImpl implements AccessService {
 	/**
 	 * Empty roles information list.
 	 */
-	private static final List<RoleInfo> EMPTY_LIST = new ArrayList<RoleInfo>(0);
+	private static final List<RoleInfo> EMPTY_LIST = new ArrayList<>(0);
 
 	/**
 	 * Default constructor.
@@ -69,7 +69,7 @@ public class AccessServiceImpl implements AccessService {
 		context.reset();
 		context.setObject(object);
 		context.setSubject(subject);
-		out("called isAllowed(" + action + ", " + object + ", " + subject + ")");
+		out("called isAllowed(" + action + ", " + object + ", " + subject + ')');
 
 		SecurityBox box = loadBox(object);
 		Collection<Role> roles = box.getRoles();
@@ -108,7 +108,7 @@ public class AccessServiceImpl implements AccessService {
 		context.reset();
 		context.setObject(object);
 		context.setSubject(subject);
-		out("notifyPassed(" + action + ", " + object + ", " + subject + "," + basedUponReply + ")");
+		out("notifyPassed(" + action + ", " + object + ", " + subject + ',' + basedUponReply + ')');
 
 		SecurityBox box = loadBox(object);
 		Collection<Role> roles = box.getRoles();
@@ -164,7 +164,7 @@ public class AccessServiceImpl implements AccessService {
 	public List<RoleInfo> getRoleInfos(final SecurityObject object) {
 		SecurityBox box = loadBox(object);
 		List<String> roleNames = box.getOwnedRoles();
-		if (roleNames == null || roleNames.size() == 0)
+		if (roleNames == null || roleNames.isEmpty())
 			return EMPTY_LIST;
 
 		return MetaInfoStorage.INSTANCE.getRoleInfos(roleNames);
@@ -268,7 +268,7 @@ public class AccessServiceImpl implements AccessService {
 			cache.put(box.getOwnerId(), box);
 			storage.saveSecurityBox(box);
 		} catch (SecurityBoxStorageServiceException e) {
-			LOGGER.error("saveBox(box of " + box.getOwnerId() + ")", e);
+			LOGGER.error("saveBox(box of " + box.getOwnerId() + ')', e);
 			throw new AccessServiceException("Can't save security box", e);
 		}
 	}
