@@ -15,6 +15,6 @@ public interface Constraint extends Serializable {
 	 * 
 	 * @return <code>true</code> if the constraint is met or <code>false</code>
 	 */
-	public boolean isMet();
+    boolean isMet();
 
 }

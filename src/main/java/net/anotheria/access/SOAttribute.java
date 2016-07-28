@@ -65,7 +65,7 @@ public class SOAttribute implements Serializable {
 
 	@Override
 	public String toString() {
-		return getName() + "=" + getValue();
+        return name + '=' + value;
 	}
 
 	@Override
@@ -83,7 +83,7 @@ public class SOAttribute implements Serializable {
 			return false;
 
 		SOAttribute toCompare = SOAttribute.class.cast(o);
-		return BasicComparable.compareString(getName(), toCompare.getName()) == 0 && BasicComparable.compareString(getValue(), toCompare.getValue()) == 0;
+        return BasicComparable.compareString(name, toCompare.name) == 0 && BasicComparable.compareString(value, toCompare.value) == 0;
 	}
 
 }

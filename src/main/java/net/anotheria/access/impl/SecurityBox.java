@@ -1,6 +1,7 @@
 package net.anotheria.access.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,7 +35,7 @@ public class SecurityBox implements CrudSaveable {
 	 * Default constructor.
 	 */
 	public SecurityBox() {
-		roles = new HashMap<String, Role>();
+		roles = new HashMap<>();
 	}
 
 	/**
@@ -96,7 +97,7 @@ public class SecurityBox implements CrudSaveable {
 	 * @return {@link List} of {@link String}
 	 */
 	public List<String> getOwnedRoles() {
-		return new ArrayList<String>(roles.keySet());
+		return new ArrayList<>(roles.keySet());
 	}
 
 	/**
@@ -104,8 +105,8 @@ public class SecurityBox implements CrudSaveable {
 	 * 
 	 * @return {@link List} of {@link Role}
 	 */
-	public List<Role> getRoles() {
-		return new ArrayList<Role>(roles.values());
+	public Collection<Role> getRoles() {
+		return new ArrayList<>(roles.values());
 	}
 
 	/**

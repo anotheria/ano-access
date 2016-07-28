@@ -30,7 +30,7 @@ public class SubjectRegCountryIsConstraint implements CustomConstraint {
 	}
 	
 	@Override public String toString(){
-		return "SubjectRegCountry is "+getCountry();
+        return "SubjectRegCountry is "+ country;
 	}
 	
 	protected String getCountry(){

@@ -1,6 +1,7 @@
 package net.anotheria.access.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -23,12 +24,12 @@ public enum MetaInfoStorage {
 	/**
 	 * Roles.
 	 */
-	private final ConcurrentMap<String, Role> roles = new ConcurrentHashMap<String, Role>();
+	private final ConcurrentMap<String, Role> roles = new ConcurrentHashMap<>();
 
 	/**
 	 * Permissions collections.
 	 */
-	private final ConcurrentMap<String, PermissionCollection> collections = new ConcurrentHashMap<String, PermissionCollection>();
+	private final ConcurrentMap<String, PermissionCollection> collections = new ConcurrentHashMap<>();
 
 	/**
 	 * Get {@link Role} by name.
@@ -74,7 +75,7 @@ public enum MetaInfoStorage {
 	 * @return {@link List} of {@link Role}
 	 */
 	public List<Role> getRoles() {
-		return new ArrayList<Role>(roles.values());
+		return new ArrayList<>(roles.values());
 	}
 
 	/**
@@ -83,7 +84,7 @@ public enum MetaInfoStorage {
 	 * @return {@link List} of {@link RoleInfo}
 	 */
 	public List<RoleInfo> getRoleInfos() {
-		List<RoleInfo> result = new ArrayList<RoleInfo>();
+		List<RoleInfo> result = new ArrayList<>();
 		for (Role role : getRoles())
 			result.add(convertToRoleInfo(role));
 
@@ -97,8 +98,8 @@ public enum MetaInfoStorage {
 	 *            - roles names
 	 * @return {@link List} of {@link RoleInfo}
 	 */
-	public List<RoleInfo> getRoleInfos(final List<String> roleNames) {
-		List<RoleInfo> result = new ArrayList<RoleInfo>();
+	public List<RoleInfo> getRoleInfos(final Collection<String> roleNames) {
+		List<RoleInfo> result = new ArrayList<>();
 		for (Role role : roles.values())
 			if (roleNames.contains(role.getName()))
 				result.add(convertToRoleInfo(role));

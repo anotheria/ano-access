@@ -54,7 +54,7 @@ public class DynamicRole extends AbstractRole {
 		if (!constraintsMet())
 			return null;
 
-		PermissionReply result = getCollection().isAllowed(action);
+        PermissionReply result = collection.isAllowed(action);
 		if (result != null)
 			result.setRoleName(getName());
 
@@ -68,7 +68,7 @@ public class DynamicRole extends AbstractRole {
 	 *            - permission name
 	 */
 	public void firePermissionUpdate(String permissionName) {
-		getCollection().firePermissionUpdate(permissionName);
+        collection.firePermissionUpdate(permissionName);
 	}
 
 }

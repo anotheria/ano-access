@@ -77,7 +77,7 @@ public class RoleInfo implements Serializable {
 
 	@Override
 	public String toString() {
-		return getRoleName() + " [T:" + getRoleType() + ", C:" + getConstraints() + "]";
+        return roleName + " [T:" + roleType + ", C:" + constraints + ']';
 	}
 
 }

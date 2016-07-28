@@ -40,7 +40,7 @@ public abstract class AbstractRole extends Constraintable implements Role {
 
 	@Override
 	public String toString() {
-		return "Role: " + getName() + " " + super.toString();
+        return "Role: " + name + ' ' + super.toString();
 	}
 
 }

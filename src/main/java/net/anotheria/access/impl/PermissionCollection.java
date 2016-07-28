@@ -1,11 +1,11 @@
 package net.anotheria.access.impl;
 
+import net.anotheria.access.Permission;
+import net.anotheria.access.PermissionReply;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import net.anotheria.access.Permission;
-import net.anotheria.access.PermissionReply;
 
 /**
  * Collection of the configured permissions.
@@ -37,7 +37,7 @@ public class PermissionCollection implements Serializable {
 	 */
 	public PermissionCollection(final String aId) {
 		this.id = aId;
-		this.permissions = new ArrayList<Permission>();
+		this.permissions = new ArrayList<>();
 	}
 
 	public String getId() {
@@ -126,7 +126,7 @@ public class PermissionCollection implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Id " + getId() + " Collection {" + permissions + "}";
+        return "Id " + id + " Collection {" + permissions + '}';
 	}
 
 }
