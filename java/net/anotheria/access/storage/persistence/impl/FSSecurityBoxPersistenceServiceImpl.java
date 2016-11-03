@@ -5,6 +5,7 @@ import net.anotheria.access.storage.persistence.SecurityBoxPersistenceService;
 import net.anotheria.anoprise.dualcrud.CrudServiceException;
 import net.anotheria.anoprise.dualcrud.ItemNotFoundException;
 import net.anotheria.anoprise.dualcrud.Query;
+import net.anotheria.anoprise.dualcrud.SaveableID;
 import net.anotheria.util.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,11 +37,11 @@ public class FSSecurityBoxPersistenceServiceImpl implements SecurityBoxPersisten
 	}
 
 	@Override
-	public SecurityBox read(final String boxOwner) throws CrudServiceException {
-		File targetFile = getFile(boxOwner);
+	public SecurityBox read(final SaveableID boxOwner) throws CrudServiceException {
+		File targetFile = getFile(boxOwner.getSaveableId());
 		ObjectInputStream oIn = null;
 		if (!targetFile.exists())
-			throw new ItemNotFoundException(boxOwner);
+			throw new ItemNotFoundException(boxOwner.getSaveableId());
 
 		try {
 			synchronized (this) {

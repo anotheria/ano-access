@@ -8,6 +8,7 @@ import net.anotheria.anoprise.dualcrud.DualCrudConfig;
 import net.anotheria.anoprise.dualcrud.DualCrudService;
 import net.anotheria.anoprise.dualcrud.DualCrudServiceFactory;
 import net.anotheria.anoprise.dualcrud.ItemNotFoundException;
+import net.anotheria.anoprise.dualcrud.SaveableID;
 import net.anotheria.anoprise.metafactory.Extension;
 import net.anotheria.anoprise.metafactory.MetaFactory;
 import net.anotheria.anoprise.metafactory.MetaFactoryException;
@@ -67,7 +68,11 @@ public class SecurityBoxStorageServiceImpl implements SecurityBoxStorageService 
 	@Override
 	public SecurityBox loadSecurityBox(final String boxOwnerId) throws SecurityBoxStorageServiceException {
 		try {
-			return dualCrudService.read(boxOwnerId);
+			SaveableID saveableID = new SaveableID();
+			saveableID.setOwnerId(boxOwnerId);
+			saveableID.setSaveableId(boxOwnerId);
+
+			return dualCrudService.read(saveableID);
 		} catch (ItemNotFoundException notFound) {
 			throw new SecurityBoxStorageServiceBoxNotFoundException(notFound.getMessage());
 		} catch (CrudServiceException e) {
