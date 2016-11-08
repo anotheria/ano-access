@@ -45,9 +45,9 @@
   </dependencies>
 
     <scm>
-        <url>svn:svn://svn.anotheria.net/opensource/ano-access/trunk</url>
-        <connection>scm:svn:svn://svn.anotheria.net/opensource/ano-access/trunk</connection>
-        <developerConnection>scm:svn:svn://svn.anotheria.net/opensource/ano-access/trunk</developerConnection>
+        <url>https://github.com/anotheria/ano-access</url>
+        <connection>git@github.com:anotheria/ano-access.git</connection>
+        <developerConnection>git@github.com:anotheria/ano-access.git</developerConnection>
     </scm>
 
 </project>
