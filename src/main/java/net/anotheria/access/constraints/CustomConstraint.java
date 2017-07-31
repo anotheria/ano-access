@@ -11,5 +11,5 @@ public interface CustomConstraint extends Constraint{
 	 * Sets the parameter from the cms.
 	 * @param parameter
 	 */
-	public void setParameter(String parameter);
+	void setParameter(String parameter);
 }
