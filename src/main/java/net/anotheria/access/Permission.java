@@ -16,18 +16,18 @@ public interface Permission extends Serializable {
 	 *            - action
 	 * @return {@link PermissionReply}
 	 */
-	public PermissionReply isAllowed(String action);
+	PermissionReply isAllowed(String action);
 
 	/**
 	 * Returns permission name.
 	 * 
 	 * @return {@link String}
 	 */
-	public String getName();
+	String getName();
 
 	/**
 	 * Invoke permission update.
 	 */
-	public void firePermissionUpdate();
+	void firePermissionUpdate();
 
 }
