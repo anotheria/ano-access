@@ -181,6 +181,11 @@ public class AccessServiceImpl implements AccessService {
 	}
 
 	@Override
+	public SecurityBox getSecurityBox(SecurityObject object) {
+		return loadBox(object);
+	}
+
+	@Override
 	public void addRole(Role role) {
 		MetaInfoStorage.INSTANCE.addRole(role);
 	}

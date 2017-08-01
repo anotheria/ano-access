@@ -1,6 +1,7 @@
 package net.anotheria.access;
 
 import net.anotheria.access.impl.PermissionCollection;
+import net.anotheria.access.impl.SecurityBox;
 import net.anotheria.anoprise.metafactory.Service;
 
 import java.util.List;
@@ -96,6 +97,15 @@ public interface AccessService extends Service {
 	 * @return {@link Role}
 	 */
 	Role getRole(String roleName);
+
+	/**
+	 * Get {@link SecurityBox} by {@link SecurityObject}.
+	 *
+	 * @param object
+	 *            - {@link SecurityObject} object.
+	 * @return {@link Role}
+	 */
+	SecurityBox getSecurityBox(SecurityObject object);
 
 	/**
 	 * Adds configured {@link Role}.
