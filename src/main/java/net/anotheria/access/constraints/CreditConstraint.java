@@ -23,7 +23,7 @@ public class CreditConstraint implements Constraint, Serializable, FireableConst
 		credits = someCredits;
 	}
 	/**
-	 * Returns true if the internal amount of credits is > 0.
+	 * Returns true if the internal amount of credits is &gt; 0.
 	 */
 	public boolean isMet() {
 		return credits>0;
