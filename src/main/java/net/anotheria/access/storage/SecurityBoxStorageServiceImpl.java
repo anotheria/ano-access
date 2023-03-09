@@ -2,7 +2,7 @@ package net.anotheria.access.storage;
 
 import net.anotheria.access.impl.SecurityBox;
 import net.anotheria.access.storage.persistence.SecurityBoxPersistenceService;
-import net.anotheria.access.storage.persistence.impl.FSSecurityBoxPersistenceServiceFactory;
+import net.anotheria.access.storage.persistence.impl.SecurityBoxPersistenceServiceFactory;
 import net.anotheria.anoprise.dualcrud.CrudServiceException;
 import net.anotheria.anoprise.dualcrud.DualCrudConfig;
 import net.anotheria.anoprise.dualcrud.DualCrudService;
@@ -57,9 +57,9 @@ public class SecurityBoxStorageServiceImpl implements SecurityBoxStorageService 
 			this.leftCrud = MetaFactory.get(SecurityBoxPersistenceService.class, Extension.CRUD_LEFT);
 		} catch (MetaFactoryException e) {
 			String message = "SecurityBoxStorageServiceImpl() 'leftCrud' initialization from MetaFactory fail.";
-			message += " Configuring with default implementation[" + FSSecurityBoxPersistenceServiceFactory.class.getName() + "].";
+			message += " Configuring with default implementation[" + SecurityBoxPersistenceServiceFactory.class.getName() + "].";
 			LOGGER.warn(message);
-			this.leftCrud = new FSSecurityBoxPersistenceServiceFactory().create();
+			this.leftCrud = new SecurityBoxPersistenceServiceFactory().create();
 		}
 		this.rightCrud = null; // TODO: should be configurable via MetaFactory
 		this.dualCrudService = DualCrudServiceFactory.createDualCrudService(leftCrud, rightCrud, dualCrudServiceConfig);

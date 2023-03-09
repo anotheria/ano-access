@@ -14,17 +14,17 @@ import java.io.File;
  * @author Leon Rosenberg, Alexandr Bolbat
  */
 @ConfigureMe(name = "ano-access-fs-security-box-persistence-service-config")
-public final class FSSecurityBoxPersistenceServiceConfig {
+public final class SecurityBoxPersistenceServiceConfig {
 
 	/**
 	 * {@link Logger} instance.
 	 */
-	private static final Logger LOGGER = LoggerFactory.getLogger(FSSecurityBoxPersistenceServiceConfig.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(SecurityBoxPersistenceServiceConfig.class);
 
 	/**
 	 * {@link FSSecurityBoxPersistenceServiceImpl} configuration instance.
 	 */
-	private static final FSSecurityBoxPersistenceServiceConfig INSTANCE = new FSSecurityBoxPersistenceServiceConfig();
+	private static final SecurityBoxPersistenceServiceConfig INSTANCE = new SecurityBoxPersistenceServiceConfig();
 
 	/**
 	 * Default storage path.
@@ -70,10 +70,43 @@ public final class FSSecurityBoxPersistenceServiceConfig {
 	@Configure
 	private int fragmentationLength = DEFAULT_FRAGMENTATION_LENGTH;
 
+    /**
+     * Bucket name for asg content.
+     */
+    @Configure
+    private String bucketName;
+    /**
+     * Project id / S3 endpoint.
+     */
+    @Configure
+    private String projectId;
+    /**
+     * Credential path for google service account file.
+     */
+    @Configure
+    private String credentialsPath;
+
+    /**
+     * Storage type.
+     */
+    @Configure
+    private String storageType;
+    /**
+     * Access key.
+     */
+    @Configure
+    private String accessKey;
+
+    /**
+     * Secret key.
+     */
+    @Configure
+    private String secretKey;
+
 	/**
 	 * Default constructor.
 	 */
-	private FSSecurityBoxPersistenceServiceConfig() {
+	private SecurityBoxPersistenceServiceConfig() {
 		try {
 			ConfigurationManager.INSTANCE.configure(this);
 		} catch (IllegalArgumentException e) {
@@ -82,11 +115,11 @@ public final class FSSecurityBoxPersistenceServiceConfig {
 	}
 
 	/**
-	 * Get {@link FSSecurityBoxPersistenceServiceConfig} instance.
+	 * Get {@link SecurityBoxPersistenceServiceConfig} instance.
 	 * 
-	 * @return {@link FSSecurityBoxPersistenceServiceConfig}
+	 * @return {@link SecurityBoxPersistenceServiceConfig}
 	 */
-	public static FSSecurityBoxPersistenceServiceConfig getInstance() {
+	public static SecurityBoxPersistenceServiceConfig getInstance() {
 		return INSTANCE;
 	}
 
@@ -122,7 +155,55 @@ public final class FSSecurityBoxPersistenceServiceConfig {
 		this.fragmentationLength = aFragmentationLength;
 	}
 
-	/**
+    public String getBucketName() {
+        return bucketName;
+    }
+
+    public void setBucketName(String bucketName) {
+        this.bucketName = bucketName;
+    }
+
+    public String getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(String projectId) {
+        this.projectId = projectId;
+    }
+
+    public String getCredentialsPath() {
+        return credentialsPath;
+    }
+
+    public void setCredentialsPath(String credentialsPath) {
+        this.credentialsPath = credentialsPath;
+    }
+
+    public String getStorageType() {
+        return storageType;
+    }
+
+    public void setStorageType(String storageType) {
+        this.storageType = storageType;
+    }
+
+    public String getAccessKey() {
+        return accessKey;
+    }
+
+    public void setAccessKey(String accessKey) {
+        this.accessKey = accessKey;
+    }
+
+    public String getSecretKey() {
+        return secretKey;
+    }
+
+    public void setSecretKey(String secretKey) {
+        this.secretKey = secretKey;
+    }
+
+    /**
 	 * Calculate full storage directory path.
 	 * 
 	 * @param userId
